@@ -4,11 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AFK Journey — Box Manager</title>
-<!-- Firebase Realtime Database SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
+<!-- Firebase SDK (compat - fonctionne partout) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
   const firebaseConfig = {
     apiKey: "AIzaSyB6a-s4dbCA-4yzx3y08CeGxx5D9uBjbd0",
     authDomain: "afkbox-b06d8.firebaseapp.com",
@@ -18,22 +17,19 @@
     messagingSenderId: "59754502741",
     appId: "1:59754502741:web:0d7e75aa440fe6ab0d52dc"
   };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-
-  // Save to Firebase
   window.saveToFirebase = function(stateData) {
-    set(ref(db, 'boxes'), stateData)
+    db.ref('boxes').set(stateData)
       .then(() => showSyncStatus('✓ Sauvegardé', '#3fb950'))
-      .catch(e => showSyncStatus('✗ Erreur sync', '#f85149'));
+      .catch(() => showSyncStatus('✗ Erreur sync', '#f85149'));
   };
 
-  // Listen for changes from any device
   window.listenFirebase = function(callback) {
-    onValue(ref(db, 'boxes'), (snapshot) => {
+    db.ref('boxes').on('value', (snapshot) => {
       const data = snapshot.val();
-      if (data) callback(data);
+      if(data) callback(data);
     });
   };
 </script>
