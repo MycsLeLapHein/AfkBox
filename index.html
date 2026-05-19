@@ -124,10 +124,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 </head>
 <body>
 <div class="topbar">
-  <div>
-    <div class="topbar-logo">⚔ AFK Journey</div>
-    <div class="topbar-sub">Box Manager</div>
-  </div>
+  <div><div class="topbar-logo">⚔ AFK Journey</div><div class="topbar-sub">Box Manager</div></div>
   <div class="profile-tabs">
     <button class="ptab active-mycs" id="pm" onclick="switchP('mycs')">
       <div class="av" style="background:rgba(255,107,53,.25);color:var(--accent)">M</div>Mycs
@@ -137,12 +134,8 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
     </button>
   </div>
   <div style="display:flex;gap:6px">
-    <button onclick="exportBox()" title="Exporter vers Google Drive" style="padding:6px 12px;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">
-      <span style="font-size:14px">☁</span> Export
-    </button>
-    <button onclick="document.getElementById('import-input').click()" title="Importer depuis Google Drive" style="padding:6px 12px;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">
-      <span style="font-size:14px">📥</span> Import
-    </button>
+    <button onclick="exportBox()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">☁ Export</button>
+    <button onclick="document.getElementById('import-input').click()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">📥 Import</button>
     <input type="file" id="import-input" accept=".json" style="display:none" onchange="importBox(event)">
   </div>
 </div>
@@ -183,7 +176,11 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
       </select>
     </div>
     <div class="mf"><label>Parangon</label>
-      <select id="mpn"><option>Elite</option><option>Elite+</option><option>Epic</option><option>Epic+</option><option>Légendaire</option><option>Légendaire+</option><option>Mythic</option><option>Mythic+</option><option>Supreme</option><option>Supreme+</option><option>P1</option><option>P2</option><option>P3</option><option>P4</option></select>
+      <select id="mpn">
+        <option>Elite</option><option>Elite+</option><option>Epic</option><option>Epic+</option>
+        <option>Légendaire</option><option>Légendaire+</option><option>Mythic</option><option>Mythic+</option>
+        <option>Supreme</option><option>Supreme+</option><option>P1</option><option>P2</option><option>P3</option><option>P4</option>
+      </select>
     </div>
     <div class="mf"><label>Puissance (ex: 68000K)</label><input type="text" id="mpw" placeholder="68000K"></div>
     <div class="ma">
@@ -193,8 +190,6 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
   </div>
 </div>
 <script>
-
-// ── TIER LIST COMPLÈTE (110 héros) ──────────────────────────────
 const TL={
 "Shemira":{tier:"S",faction:"Mort-vivant",dr:0.5,stage:4.0,pvp:0.5,cat:"SHEMIRA",rank:1,role:"Mage",note:"Vol de vie massif, tank mage auto-sustain.",excap:15},
 "Gala":{tier:"S",faction:"Pugiliste",dr:0.0,stage:1.0,pvp:1.5,cat:"REQUIRED",rank:2,role:"Mage",note:"Carry magique PvE très puissant.",excap:15},
@@ -314,8 +309,6 @@ const TL={
 "Chippy":{tier:"S",faction:"Porteur de lumière",dr:1.0,stage:2.0,pvp:1.0,cat:"Stretch",rank:62,role:"Tank",note:"Hamster imprévisible mais résistant.",excap:10},
 "Hammie":{tier:"S",faction:"Porteur de lumière",dr:1.0,stage:2.0,pvp:1.0,cat:"Stretch",rank:62,role:"Soutien",note:"Soutien Lightbearer.",excap:10},
 };
-
-// ── SYNERGIES ───────────────────────────────────────────────────
 const SYN={
 "Shemira":[
   {name:"Full Graveborn sustain",heroes:["Shemira","Daimon","Ludovic","Bonnie","Thoran"],desc:"Synergie Mort-vivant : vol de vie permanent, Daimon tank, Ludovic soins, Thoran renvoie les dégâts. Auto-sustain.",mode:"PvE Stages"},
@@ -383,7 +376,6 @@ const SYN={
   {name:"Natsu Collab assault",heroes:["Natsu","Marcille","Lucy","Tasi","Rowan"],desc:"Synergie Fairy Tail/Dungeon Meshi : Natsu guerrier, Marcille DPS, Lucy soutien, Tasi contrôle.",mode:"PvE & PvP"},
 ],
 };
-
 function getTeams(n,p){
   if(SYN[n]) return SYN[n];
   const h=TL[n];if(!h)return[];
@@ -396,13 +388,11 @@ function getTeams(n,p){
   ];
 }
 
-// ── UTILS ───────────────────────────────────────────────────────
-const CC={"SHEMIRA":"#ff0055","REQUIRED":"#ff4444","High Impact":"#ff8c00","Nice to Have":"#ffd700","Niche":"#7ec8e3","Stretch":"#6e7681","Cele/Hypo":"#bf7fff","Collab":"#3fb950","Skip":"#555"};
+const CC={"SHEMIRA":"#ff0055","REQUIRED":"#ff4444","High Impact":"#ff8c00","Nice to Have":"#ffd700","Niche":"#7ec8e3","Stretch":"#6e7681","Céleste/Hypogéen":"#bf7fff","Collab":"#3fb950","Skip":"#555"};
 const cc=c=>CC[c]||'#555';
 const sc=v=>v>=3.5?'#3fb950':v>=2?'#ffd700':v>=1?'#ff8c00':'#f85149';
 const sb=(v,m=4)=>Math.max(0,Math.min(100,v/m*100)).toFixed(1)+'%';
 
-// ── STATE ────────────────────────────────────────────────────────
 const DEF_MYCS=[
   {name:"Shemira",ex:10,pn:"P3",power:"70633K"},{name:"Gala",ex:10,pn:"P3",power:"72361K"},
   {name:"Daimon",ex:9,pn:"Supreme+",power:"61019K"},{name:"Koko",ex:9,pn:"P2",power:"68143K"},
@@ -426,17 +416,12 @@ const DEF_MYCS=[
   {name:"Pippa",ex:0,pn:"Supreme+",power:"20426K"},{name:"Arden",ex:0,pn:"Supreme+",power:"20284K"},
   {name:"Lenya",ex:0,pn:"Supreme+",power:"18746K"},
 ];
-
-function loadS(){try{const s=localStorage.getItem('afk3');if(s)return JSON.parse(s);}catch(e){}return{mycs:JSON.parse(JSON.stringify(DEF_MYCS)),nams:[]};}
-function saveS(){
-  localStorage.setItem('afk3', JSON.stringify(state));
-}
-
+function loadS(){try{const s=localStorage.getItem('afk3');if(s)return JSON.parse(s);}
+function saveS(){localStorage.setItem('afk3',JSON.stringify(state));}
 let state=loadS();
 let prof='mycs',sel=null,fac='all';
 const getBox=p=>state[p]||[];
 
-// ── RENDER ───────────────────────────────────────────────────────
 function switchP(p){
   prof=p;sel=null;fac='all';
   document.getElementById('srch').value='';
@@ -447,8 +432,240 @@ function switchP(p){
   document.getElementById('sav').textContent=isN?'N':'M';
   document.getElementById('stit').textContent=isN?'Box de Nams':'Box de Mycs';
   document.getElementById('abtn').className='add-btn'+(isN?' n':'');
-  document.getElementById('main').innerHTML=`<div class="empty-state"><div class="ei">⚔</div><p>Sélectionne un héros</p><small>ou clique "+ Ajouter" pour enrichir la box</small></div>`;
-  // ── EX LIVE UPDATE ──────────────────────────────────────────────
+  document.getElementById('mok').className='btn '+(isN?'bon':'bo');
+  document.getElementById('main').innerHTML='<div class="empty-state"><div class="ei">⚔</div><p>Sélectionne un héros</p><small>ou clique "+ Ajouter"</small></div>';
+  renderS();
+}
+
+function renderS(){
+  const box=getBox(prof);
+  document.getElementById('hcnt').textContent=box.length+' héros';
+  const facs=['all',...new Set(box.map(h=>TL[h.name]?.faction).filter(Boolean))].sort((a,b)=>a==='all'?-1:b==='all'?1:a.localeCompare(b));
+  document.getElementById('ff').innerHTML=facs.map(f=>`<button class="fb${fac===f?' on':''}" onclick="setF('${f}')">${f==='all'?'Tous':f}</button>`).join('');
+  renderL();
+}
+
+function renderL(){
+  const box=getBox(prof);
+  const q=document.getElementById('srch').value.toLowerCase();
+  const isN=prof==='nams';
+  let items=box.filter(h=>{
+    if(q&&!h.name.toLowerCase().includes(q))return false;
+    if(fac!=='all'&&TL[h.name]?.faction!==fac)return false;
+    return true;
+  }).sort((a,b)=>{
+    const ta=TL[a.name],tb=TL[b.name];
+    if(!ta&&!tb)return 0;if(!ta)return 1;if(!tb)return-1;
+    return ta.rank-tb.rank;
+  });
+  const el=document.getElementById('hl');
+  if(!items.length){
+    el.innerHTML=`<div style="padding:20px 14px;text-align:center;color:var(--text3);font-size:13px">${box.length===0?'Box vide — clique "+ Ajouter"':'Aucun résultat'}</div>`;
+    return;
+  }
+  el.innerHTML=items.map(h=>{
+    const t=TL[h.name]||{};
+    const c=cc(t.cat||'');
+    const s=sel===h.name;
+    return`<div class="hi${s?(isN?' sn':' sm'):''}" onclick="selH('${h.name}')">
+      <div class="hdot" style="background:${c}"></div>
+      <span class="hn">${h.name}</span>
+      ${t.tier?`<span class="tb ${t.tier==='S'?'ts':'ta'}">${t.tier}</span>`:''}
+      ${h.ex>0?`<span class="exb">+${h.ex}</span>`:''}
+    </div>`;
+  }).join('');
+}
+
+function setF(f){fac=f;renderS();}
+
+function selH(name){
+  sel=name;renderL();
+  const box=getBox(prof);
+  const hero=box.find(h=>h.name===name);
+  const t=TL[name]||{};
+  if(!hero)return;
+  const isN=prof==='nams';
+  const ac=isN?'var(--accent2)':'var(--accent)';
+  const c=cc(t.cat||'');
+  const bnames=box.map(b=>b.name);
+  const teams=getTeams(name,prof);
+
+  const exLevels=[
+    {v:-1,l:'Non débloqué'},{v:0,l:'+0 (débloqué)'},
+    {v:1,l:'+1'},{v:2,l:'+2'},{v:3,l:'+3'},{v:4,l:'+4'},{v:5,l:'+5'},
+    {v:6,l:'+6'},{v:7,l:'+7'},{v:8,l:'+8'},{v:9,l:'+9'},{v:10,l:'+10'},
+    {v:11,l:'+11'},{v:12,l:'+12'},{v:13,l:'+13'},{v:14,l:'+14'},{v:15,l:'+15'}
+  ];
+  const exOpts=exLevels.map(o=>`<option value="${o.v}"${o.v===hero.ex?' selected':''}>${o.l}</option>`).join('');
+  const pnOpts=['Elite','Elite+','Epic','Epic+','Légendaire','Légendaire+','Mythic','Mythic+','Supreme','Supreme+','P1','P2','P3','P4'].map(p=>`<option${p===hero.pn?' selected':''}>${p}</option>`).join('');
+  const excap=t.excap;
+  const exLabel=hero.ex===-1?'Non débloqué':hero.ex===0?'+0 (débloqué)':('+'+hero.ex);
+  let exCapLabel,exCapColor,exCapIcon;
+  if(excap===undefined||excap===null){exCapLabel='Cap : +10';exCapColor='#ffd700';exCapIcon='🎯';}
+  else if(excap===-1){exCapLabel="Pas d'EX recommandé";exCapColor='#6e7681';exCapIcon='⊘';}
+  else if(excap===0){exCapLabel='EX non prioritaire';exCapColor='#8b949e';exCapIcon='◦';}
+  else if(excap===10){exCapLabel='Cap recommandé : +10';exCapColor='#ffd700';exCapIcon='🎯';}
+  else if(excap===15){exCapLabel='Cap recommandé : +15';exCapColor='#3fb950';exCapIcon='⭐';}
+  else{exCapLabel='Cap : +'+excap;exCapColor='#ffd700';exCapIcon='🎯';}
+  const exProgress=(excap>0&&hero.ex>0)?(hero.ex/excap*100):0;
+  const exDone=(excap>0&&hero.ex>=excap);
+  if(exDone&&excap>0){exCapLabel='✓ Cap atteint !';exCapColor='#3fb950';exCapIcon='🎉';}
+
+  const tHTML=teams.map(tm=>{
+    const tags=tm.heroes.map(hn=>{
+      const own=bnames.includes(hn);
+      const tt=TL[hn];
+      return`<div class="th ${own?'o':'x'}"><span style="font-size:10px">${own?'✓':'○'}</span>${hn}${own&&tt?`<span style="font-size:9px;color:${cc(tt.cat)};margin-left:2px">${tt.tier}</span>`:''  }</div>`;
+    }).join('');
+    return`<div class="tc"><div class="tt"><span>${tm.name}</span><span class="tm">${tm.mode}</span></div><div class="td">${tm.desc}</div><div class="thl">${tags}</div></div>`;
+  }).join('');
+
+  document.getElementById('main').innerHTML=`<div class="detail">
+    <div class="dh">
+      <div class="dav" style="background:${c}22;border-color:${c}55;color:${c}">${name.slice(0,2).toUpperCase()}</div>
+      <div class="di">
+        <h2>${name}</h2>
+        <div class="meta">
+          ${t.tier?`<span class="badge ${t.tier==='S'?'bs':'ba'}">${t.tier}</span>`:''}
+          ${t.faction?`<span class="badge bf">${t.faction}</span>`:''}
+          ${t.role?`<span class="badge bf">${t.role}</span>`:''}
+          ${t.cat?`<span class="badge" style="background:${c}18;color:${c};border-color:${c}44">${t.cat}</span>`:''}
+          <span style="font-size:11px;color:var(--text3)">Rang #${t.rank||'?'}</span>
+        </div>
+        ${t.note?`<div class="note">${t.note}</div>`:''}
+      </div>
+    </div>
+    <div class="sg">
+      <div class="sc">
+        <div class="scl">EX Level</div>
+        <div class="scv" id="ex-label-card" style="color:${ac};font-size:15px">${exLabel}</div>
+        <div id="ex-progress-wrap" style="margin-top:5px;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;display:${excap>0?'block':'none'}">
+          <div id="ex-progress-bar" style="height:100%;width:${excap>0?Math.min(100,exProgress).toFixed(0)+'%':'0%'};background:${exDone?'#3fb950':ac};border-radius:2px;transition:width .3s"></div>
+        </div>
+        <div id="ex-cap-label" style="margin-top:4px;font-size:10px;color:${exCapColor}">${exCapIcon} ${exCapLabel}</div>
+      </div>
+      <div class="sc"><div class="scl">Parangon</div><div class="scv" style="color:var(--gold)">${hero.pn}</div></div>
+      <div class="sc"><div class="scl">Puissance</div><div class="scv" style="font-size:14px;color:var(--text)">${hero.power||'—'}</div></div>
+      <div class="sc"><div class="scl">Rang Tier</div><div class="scv" style="color:${t.tier==='S'?'var(--gold)':'var(--accent2)'}">${t.tier||'?'}</div></div>
+    </div>
+    <div class="sec"><h3>Scores tier list</h3>
+      ${[['Dream Realm',t.dr||0],['Story Stage',t.stage||0],['PvP',t.pvp||0]].map(([l,v])=>`
+      <div class="sr"><span class="sl">${l}</span>
+        <div class="st"><div class="sf" style="width:${sb(Math.max(0,v))};background:${sc(v)}"></div></div>
+        <span class="sn" style="color:${sc(v)}">${v.toFixed(1)}</span>
+      </div>`).join('')}
+    </div>
+    <div class="sec"><h3>Modifier le héros</h3>
+      <div class="eg">
+        <div class="ef"><label>Niveau EX</label>
+          <select id="ex-select" onchange="ed('ex',this.value,'${name}');updateExCard(this.value,'${name}')">${exOpts}</select>
+        </div>
+        <div class="ef"><label>Parangon</label><select onchange="ed('pn',this.value,'${name}')">${pnOpts}</select></div>
+        <div class="ef" style="grid-column:span 2"><label>Puissance</label>
+          <input type="text" value="${hero.power||''}" placeholder="ex: 68000K" oninput="ed('power',this.value,'${name}')">
+        </div>
+      </div>
+      <div class="ea">
+        <button class="btn bsv" onclick="sv('${name}')">✓ Sauvegarder</button>
+        <button class="btn bdl" onclick="dl('${name}')">Supprimer</button>
+      </div>
+    </div>
+    <div class="sec"><h3>Équipes recommandées</h3>${tHTML}</div>
+    <div class="aiw"><h3>✦ Question IA</h3>
+      <div class="air">
+        <input type="text" id="aiq" placeholder="Ex: contre quel boss utiliser ${name} ?" onkeydown="if(event.key==='Enter')ai('${name}')">
+        <button onclick="ai('${name}')">→</button>
+      </div>
+      <div id="ail" class="ail">✦ Analyse en cours...</div>
+      <div id="air2" class="airesp"></div>
+    </div>
+  </div>`;
+}
+
+function ed(f,v,n){const h=getBox(prof).find(h=>h.name===n);if(!h)return;if(f==='ex')h.ex=parseInt(v);else h[f]=v;saveS();}
+function sv(n){saveS();renderL();const b=document.querySelector('.bsv');if(b){b.textContent='✓ Sauvegardé !';setTimeout(()=>b.textContent='✓ Sauvegarder',1500);}}
+function dl(n){if(!confirm('Supprimer '+n+' de la box ?'))return;state[prof]=getBox(prof).filter(h=>h.name!==n);saveS();sel=null;document.getElementById('main').innerHTML='<div class="empty-state"><div class="ei">⚔</div><p>Héros supprimé</p></div>';renderS();}
+
+let modalAvail=[];
+function openM(){
+  const owned=getBox(prof).map(h=>h.name);
+  modalAvail=Object.keys(TL).filter(n=>!owned.includes(n)).sort((a,b)=>TL[a].rank-TL[b].rank);
+  const isN=prof==='nams';
+  document.getElementById('msearch').value='';
+  document.getElementById('mhint').textContent='';
+  document.getElementById('mcount').textContent='('+modalAvail.length+' disponibles)';
+  document.getElementById('mtit').textContent=isN?'Ajouter à la box de Nams':'Ajouter à ma box';
+  document.getElementById('mok').className='btn '+(isN?'bon':'bo');
+  buildHeroOptions(modalAvail);
+  document.getElementById('ov').style.display='flex';
+  setTimeout(()=>document.getElementById('msearch').focus(),100);
+}
+function buildHeroOptions(list){
+  const sel2=document.getElementById('mh');
+  if(list.length===0){sel2.innerHTML='<option value="">Aucun résultat</option>';return;}
+  sel2.innerHTML=list.map(n=>{
+    const t=TL[n];
+    return`<option value="${n}">${t.tier?'['+t.tier+'] ':''}${n} — ${t.faction||''}</option>`;
+  }).join('');
+  sel2.selectedIndex=0;
+  onHeroChosen();
+}
+function filterHeroes(){
+  const q=document.getElementById('msearch').value.toLowerCase().trim();
+  const filtered=q?modalAvail.filter(n=>n.toLowerCase().includes(q)):modalAvail;
+  buildHeroOptions(filtered);
+}
+function onHeroChosen(){
+  const n=document.getElementById('mh').value;
+  const t=TL[n];
+  const hint=document.getElementById('mhint');
+  if(n&&t){
+    const capLabel=t.excap===0?'EX non prioritaire':t.excap===-1?"Pas d'EX":t.excap?'Cap EX : +'+t.excap:'?';
+    hint.innerHTML='<span style="color:var(--text2)">'+t.faction+' · '+t.role+'</span> | <span style="color:var(--gold)">DR:'+t.dr+' Stage:'+t.stage+'</span> | <span style="color:var(--purple)">'+capLabel+'</span>';
+  }else{hint.textContent='';}
+}
+function closeM(){document.getElementById('ov').style.display='none';}
+function confirmA(){
+  const n=document.getElementById('mh').value;
+  if(!n){alert('Choisis un héros !');return;}
+  const ex=parseInt(document.getElementById('mex').value);
+  const pn=document.getElementById('mpn').value;
+  const pw=document.getElementById('mpw').value||'—';
+  const box=getBox(prof);
+  if(box.find(h=>h.name===n)){alert('Déjà dans la box !');return;}
+  box.push({name:n,ex,pn,power:pw});
+  saveS();closeM();renderS();selH(n);
+}
+document.getElementById('ov').addEventListener('click',e=>{if(e.target===document.getElementById('ov'))closeM();});
+
+function exportBox(){
+  const data={version:1,date:new Date().toISOString(),mycs:state.mycs,nams:state.nams};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='afk-box-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  URL.revokeObjectURL(url);
+  setTimeout(()=>{if(confirm('Fichier téléchargé ✓\nOuvrir Google Drive ?'))window.open('https://drive.google.com/drive/my-drive','_blank');},800);
+}
+function importBox(event){
+  const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.mycs&&!data.nams)throw new Error('Format invalide');
+      if(data.mycs)state.mycs=data.mycs;
+      if(data.nams)state.nams=data.nams;
+      saveS();sel=null;
+      renderS();
+      document.getElementById('main').innerHTML='<div class="empty-state"><div class="ei">✓</div><p>Box importée !</p><small>Mycs:'+(state.mycs?.length||0)+' · Nams:'+(state.nams?.length||0)+'</small></div>';
+      alert('Import réussi !\nMycs : '+(state.mycs?.length||0)+' héros\nNams : '+(state.nams?.length||0)+' héros');
+    }catch(err){alert('Erreur : '+err.message);}
+    event.target.value='';
+  };
+  reader.readAsText(file);
+}
+
 function updateExCard(rawVal, heroName) {
   const val = parseInt(rawVal);
   const t = TL[heroName] || {};
@@ -486,3 +703,24 @@ function updateExCard(rawVal, heroName) {
   const capEl = document.getElementById('ex-cap-label');
   if(capEl) { capEl.textContent = capIcon+' '+capLabel; capEl.style.color = capColor; }
 }
+
+async function ai(nm){
+  const q=document.getElementById('aiq')?.value?.trim();if(!q)return;
+  const L=document.getElementById('ail'),R=document.getElementById('air2');
+  L.style.display='';R.style.display='none';
+  const box=getBox(prof);
+  const sum=box.slice(0,25).map(h=>h.name+'(EX+'+h.ex+','+h.pn+')').join(', ');
+  const t=TL[nm]||{};
+  const prompt='Tu es un expert AFK Journey. Héros : '+nm+' (Tier '+t.tier+', '+t.faction+', DR:'+t.dr+', Stage:'+t.stage+'). Box : '+sum+'. Question : '+q+'. Réponds en français, max 200 mots.';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const d=await res.json();
+    R.textContent=d.content?.map(b=>b.text||'').join('')||'Erreur.';R.style.display='';
+  }catch(e){R.textContent='⚠️ Erreur.';R.style.display='';}
+  L.style.display='none';
+}
+
+renderS();
+</script>
+</body>
+</html>
