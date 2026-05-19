@@ -182,7 +182,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
         <option>Supreme</option><option>Supreme+</option><option>P1</option><option>P2</option><option>P3</option><option>P4</option>
       </select>
     </div>
-    <div class="mf"><label>Puissance (ex: 68000K)</label><input type="text" id="mpw" placeholder="68000K"></div>
+
     <div class="ma">
       <button class="btn bc" onclick="closeM()">Annuler</button>
       <button class="btn bo" id="mok" onclick="confirmA()">Ajouter</button>
@@ -628,7 +628,7 @@ function selH(name){
         <div id="ex-cap-label" style="margin-top:4px;font-size:10px;color:${exCapColor}">${exCapIcon} ${exCapLabel}</div>
       </div>
       <div class="sc"><div class="scl">Parangon</div><div class="scv" style="color:var(--gold)">${hero.pn}</div></div>
-      <div class="sc"><div class="scl">Puissance</div><div class="scv" style="font-size:14px;color:var(--text)">${hero.power||'—'}</div></div>
+
       <div class="sc"><div class="scl">Rang Tier</div><div class="scv" style="color:${t.tier==='S'?'var(--gold)':'var(--accent2)'}">${t.tier||'?'}</div></div>
     </div>
     <div class="sec"><h3>Scores tier list</h3>
@@ -644,9 +644,7 @@ function selH(name){
           <select id="ex-select" data-hero="${name}" onchange="ed('ex',this.value,this.dataset.hero);updateExCard(this.value,this.dataset.hero)">${exOpts}</select>
         </div>
         <div class="ef"><label>Parangon</label><select data-hero="${name}" onchange="ed('pn',this.value,this.dataset.hero)">${pnOpts}</select></div>
-        <div class="ef" style="grid-column:span 2"><label>Puissance</label>
-          <input type="text" value="${hero.power||''}" placeholder="ex: 68000K" data-hero="${name}" oninput="ed('power',this.value,this.dataset.hero)">
-        </div>
+
       </div>
       <div class="ea">
         <button class="btn bsv" data-hero="${name}" onclick="sv(this.dataset.hero)">✓ Sauvegarder</button>
@@ -713,10 +711,9 @@ function confirmA(){
   if(!n){alert('Choisis un héros !');return;}
   const ex=parseInt(document.getElementById('mex').value);
   const pn=document.getElementById('mpn').value;
-  const pw=document.getElementById('mpw').value||'—';
   const box=getBox(prof);
   if(box.find(h=>h.name===n)){alert('Déjà dans la box !');return;}
-  box.push({name:n,ex,pn,power:pw});
+  box.push({name:n,ex,pn});
   saveS();closeM();renderS();selH(n);
 }
 document.getElementById('ov').addEventListener('click',e=>{if(e.target===document.getElementById('ov'))closeM();});
@@ -728,7 +725,7 @@ function exportBox(){
   const a=document.createElement('a');
   a.href=url;a.download='afk-box-'+new Date().toISOString().slice(0,10)+'.json';a.click();
   URL.revokeObjectURL(url);
-  setTimeout(()=>{if(confirm('Fichier téléchargé ✓\nOuvrir Google Drive ?'))window.open('https://drive.google.com/drive/my-drive','_blank');},800);
+  setTimeout(()=>window.open('https://drive.google.com/drive/my-drive','_blank'),600);
 }
 function importBox(event){
   const file=event.target.files[0];if(!file)return;
