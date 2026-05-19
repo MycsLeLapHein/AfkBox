@@ -211,8 +211,11 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
       <select id="mex">
         <option value="-1">Non débloqué</option>
         <option value="0" selected>+0 (débloqué)</option>
-        <option value="10">+10</option>
-        <option value="15">+15</option>
+        <option value="1">+1</option><option value="2">+2</option><option value="3">+3</option>
+        <option value="4">+4</option><option value="5">+5</option><option value="6">+6</option>
+        <option value="7">+7</option><option value="8">+8</option><option value="9">+9</option>
+        <option value="10">+10</option><option value="11">+11</option><option value="12">+12</option>
+        <option value="13">+13</option><option value="14">+14</option><option value="15">+15</option>
       </select>
     </div>
     <div class="mf"><label>Parangon</label>
@@ -499,7 +502,46 @@ function switchP(p){
   document.getElementById('stit').textContent=isN?'Box de Nams':'Box de Mycs';
   document.getElementById('abtn').className='add-btn'+(isN?' n':'');
   document.getElementById('main').innerHTML=`<div class="empty-state"><div class="ei">⚔</div><p>Sélectionne un héros</p><small>ou clique "+ Ajouter" pour enrichir la box</small></div>`;
-  // ── FIREBASE INIT ───────────────────────────────────────────────
+  // ── EX LIVE UPDATE ──────────────────────────────────────────────
+function updateExCard(rawVal, heroName) {
+  const val = parseInt(rawVal);
+  const t = TL[heroName] || {};
+  const excap = t.excap;
+  const ac = prof==='nams' ? 'var(--accent2)' : 'var(--accent)';
+
+  // Label
+  const label = val===-1 ? 'Non débloqué' : val===0 ? '+0 (débloqué)' : '+'+val;
+  const labelEl = document.getElementById('ex-label-card');
+  if(labelEl) labelEl.textContent = label;
+
+  // Progress bar
+  const progress = (excap>0 && val>0) ? Math.min(100, val/excap*100) : 0;
+  const done = excap>0 && val>=excap;
+  const barWrap = document.getElementById('ex-progress-wrap');
+  const bar = document.getElementById('ex-progress-bar');
+  if(barWrap) barWrap.style.display = excap>0 ? 'block' : 'none';
+  if(bar) {
+    bar.style.width = progress.toFixed(0)+'%';
+    bar.style.background = done ? '#3fb950' : ac;
+  }
+
+  // Cap label
+  let capLabel, capColor, capIcon;
+  if(excap===undefined||excap===null){capLabel='Cap : +10';capColor='#ffd700';capIcon='🎯';}
+  else if(excap===-1){capLabel='Pas d'EX recommandé';capColor='#6e7681';capIcon='⊘';}
+  else if(excap===0){capLabel='EX non prioritaire';capColor='#8b949e';capIcon='◦';}
+  else if(excap===10){capLabel='Cap recommandé : +10';capColor='#ffd700';capIcon='🎯';}
+  else if(excap===15){capLabel='Cap recommandé : +15';capColor='#3fb950';capIcon='⭐';}
+  else{capLabel='Cap : +'+excap;capColor='#ffd700';capIcon='🎯';}
+
+  // Add done indicator
+  if(done && excap>0) { capLabel = '✓ Cap atteint !'; capColor = '#3fb950'; capIcon = '🎉'; }
+
+  const capEl = document.getElementById('ex-cap-label');
+  if(capEl) { capEl.textContent = capIcon+' '+capLabel; capEl.style.color = capColor; }
+}
+
+// ── FIREBASE INIT ───────────────────────────────────────────────
 function initFirebase() {
   if(typeof window.listenFirebase !== 'function') {
     // Firebase module not loaded yet, retry
@@ -638,8 +680,14 @@ function selH(name){
   const c=cc(t.cat||'');
   const bnames=box.map(b=>b.name);
   const teams=getTeams(name,prof);
-  const exOpts=[{v:-1,l:'Non débloqué'},{v:0,l:'+0 débloqué'},{v:10,l:'+10'},{v:15,l:'+15'}]
-    .map(o=>`<option value="${o.v}"${o.v===hero.ex?' selected':''}>${o.l}</option>`).join('');
+  const exLevels=[
+    {v:-1,l:'Non débloqué'},
+    {v:0,l:'+0 (débloqué)'},
+    {v:1,l:'+1'},{v:2,l:'+2'},{v:3,l:'+3'},{v:4,l:'+4'},{v:5,l:'+5'},
+    {v:6,l:'+6'},{v:7,l:'+7'},{v:8,l:'+8'},{v:9,l:'+9'},{v:10,l:'+10'},
+    {v:11,l:'+11'},{v:12,l:'+12'},{v:13,l:'+13'},{v:14,l:'+14'},{v:15,l:'+15'}
+  ];
+  const exOpts=exLevels.map(o=>`<option value="${o.v}"${o.v===hero.ex?' selected':''}>${o.l}</option>`).join('');
   const pnOpts=['Elite','Elite+','Epic','Epic+','Légendaire','Légendaire+','Mythic','Mythic+','Supreme','Supreme+','P1','P2','P3','P4'].map(p=>`<option${p===hero.pn?' selected':''}>${p}</option>`).join('');
   const exLabel=hero.ex===-1?'Non débloqué':hero.ex===0?'+0 débloqué':('+'+hero.ex);
   const excap=t.excap;
@@ -678,10 +726,14 @@ function selH(name){
       </div>
     </div>
     <div class="sg">
-      <div class="sc"><div class="scl">EX Level</div>
-      <div class="scv" style="color:${ac};font-size:15px">${exLabel}</div>
-      ${excap>0?('<div style="margin-top:5px;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden"><div style="height:100%;width:'+Math.min(100,exProgress).toFixed(0)+'%;background:'+(exDone?'#3fb950':ac)+';border-radius:2px"></div></div>'):''}
-      <div style="margin-top:4px;font-size:10px;color:${exCapColor}">${exCapIcon} ${exCapLabel}</div></div>
+      <div class="sc">
+        <div class="scl">EX Level</div>
+        <div class="scv" id="ex-label-card" style="color:${ac};font-size:15px">${exLabel}</div>
+        <div id="ex-progress-wrap" style="margin-top:5px;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;display:${excap>0?'block':'none'}">
+          <div id="ex-progress-bar" style="height:100%;width:${excap>0?Math.min(100,exProgress).toFixed(0)+'%':'0%'};background:${exDone?'#3fb950':ac};border-radius:2px;transition:width .3s"></div>
+        </div>
+        <div id="ex-cap-label" style="margin-top:4px;font-size:10px;color:${exCapColor}">${exCapIcon} ${exCapLabel}</div>
+      </div>
       <div class="sc"><div class="scl">Parangon</div><div class="scv" style="color:var(--gold)">${hero.pn}</div></div>
       <div class="sc"><div class="scl">Puissance</div><div class="scv" style="font-size:14px;color:var(--text)">${hero.power||'—'}</div></div>
       <div class="sc"><div class="scl">Rang Tier</div><div class="scv" style="color:${t.tier==='S'?'var(--gold)':'var(--accent2)'}">${t.tier||'?'}</div></div>
@@ -695,7 +747,7 @@ function selH(name){
     </div>
     <div class="sec"><h3>Modifier le héros</h3>
       <div class="eg">
-        <div class="ef"><label>Niveau EX</label><select onchange="ed('ex',this.value,'${name}')">${exOpts}</select></div>
+        <div class="ef"><label>Niveau EX</label><select id="ex-select" onchange="ed('ex',this.value,'${name}');updateExCard(this.value,'${name}')">${exOpts}</select></div>
         <div class="ef"><label>Parangon</label><select onchange="ed('pn',this.value,'${name}')">${pnOpts}</select></div>
         <div class="ef" style="grid-column:span 2"><label>Puissance</label><input type="text" value="${hero.power||''}" placeholder="ex: 68000K" oninput="ed('power',this.value,'${name}')"></div>
       </div>
