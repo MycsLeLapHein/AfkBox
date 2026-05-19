@@ -394,29 +394,86 @@ const sc=v=>v>=3.5?'#3fb950':v>=2?'#ffd700':v>=1?'#ff8c00':'#f85149';
 const sb=(v,m=4)=>Math.max(0,Math.min(100,v/m*100)).toFixed(1)+'%';
 
 const DEF_MYCS=[
-  {name:"Shemira",ex:10,pn:"P3",power:"70633K"},{name:"Gala",ex:10,pn:"P3",power:"72361K"},
-  {name:"Daimon",ex:9,pn:"Supreme+",power:"61019K"},{name:"Koko",ex:9,pn:"P2",power:"68143K"},
-  {name:"Aurora",ex:10,pn:"P3",power:"58070K"},{name:"Hugin",ex:9,pn:"P2",power:"68070K"},
-  {name:"Zanie",ex:8,pn:"P2",power:"68782K"},{name:"Faramor",ex:8,pn:"Supreme+",power:"68473K"},
-  {name:"Brutus",ex:0,pn:"P1",power:"64303K"},{name:"Odie",ex:0,pn:"Supreme+",power:"62878K"},
-  {name:"Bonnie",ex:0,pn:"Supreme+",power:"62752K"},{name:"Silven",ex:0,pn:"Supreme+",power:"36674K"},
-  {name:"Aile d'ombre",ex:0,pn:"Supreme+",power:"37932K"},{name:"Thador",ex:0,pn:"Supreme+",power:"37379K"},
-  {name:"Thoran",ex:0,pn:"Supreme+",power:"28212K"},{name:"Carolina",ex:0,pn:"Supreme+",power:"31247K"},
-  {name:"Frieren",ex:0,pn:"Supreme+",power:"30906K"},{name:"Tasi",ex:0,pn:"Supreme+",power:"30602K"},
-  {name:"Zandrok",ex:0,pn:"Supreme+",power:"30335K"},{name:"Ludovic",ex:0,pn:"Supreme+",power:"29264K"},
-  {name:"Rowan",ex:0,pn:"Supreme+",power:"27844K"},{name:"Himmel",ex:0,pn:"Supreme+",power:"27252K"},
-  {name:"Gunnar",ex:0,pn:"Supreme+",power:"28614K"},{name:"Solise",ex:0,pn:"Supreme+",power:"31289K"},
-  {name:"Elijah & Lailah",ex:0,pn:"Supreme+",power:"19224K"},{name:"Reinier",ex:0,pn:"Supreme+",power:"21123K"},
-  {name:"Dionel",ex:0,pn:"Supreme+",power:"20315K"},{name:"Eironn",ex:0,pn:"Supreme+",power:"20506K"},
-  {name:"Velara",ex:0,pn:"Supreme+",power:"23022K"},{name:"Lily May",ex:0,pn:"Supreme+",power:"24111K"},
-  {name:"Cyran",ex:0,pn:"Supreme+",power:"24251K"},{name:"Cassadee",ex:0,pn:"Supreme+",power:"20636K"},
-  {name:"Hewynn",ex:0,pn:"Supreme+",power:"23558K"},{name:"Shakir",ex:0,pn:"Supreme+",power:"20486K"},
-  {name:"Smokey & Meerky",ex:0,pn:"Supreme+",power:"23482K"},{name:"Sinbad",ex:0,pn:"Supreme+",power:"18548K"},
-  {name:"Silvina",ex:0,pn:"Supreme+",power:"18511K"},{name:"Perseus",ex:0,pn:"Supreme+",power:"24145K"},
-  {name:"Pippa",ex:0,pn:"Supreme+",power:"20426K"},{name:"Arden",ex:0,pn:"Supreme+",power:"20284K"},
+  {name:"Shemira",ex:10,pn:"P3",power:"70633K"},
+  {name:"Gala",ex:10,pn:"P3",power:"72361K"},
+  {name:"Daimon",ex:9,pn:"Supreme+",power:"61019K"},
+  {name:"Koko",ex:9,pn:"P2",power:"68143K"},
+  {name:"Aurora",ex:10,pn:"P3",power:"58070K"},
+  {name:"Hugin",ex:9,pn:"P2",power:"68070K"},
+  {name:"Zanie",ex:8,pn:"P2",power:"68782K"},
+  {name:"Faramor",ex:8,pn:"Supreme+",power:"68473K"},
+  {name:"Brutus",ex:0,pn:"P1",power:"64303K"},
+  {name:"Odie",ex:0,pn:"Supreme+",power:"62878K"},
+  {name:"Bonnie",ex:0,pn:"Supreme+",power:"62752K"},
+  {name:"Silven",ex:0,pn:"Supreme+",power:"36674K"},
+  {name:"Aile d'ombre",ex:0,pn:"Supreme+",power:"37932K"},
+  {name:"Thador",ex:0,pn:"Supreme+",power:"37379K"},
+  {name:"Thoran",ex:0,pn:"Supreme+",power:"28212K"},
+  {name:"Carolina",ex:0,pn:"Supreme+",power:"31247K"},
+  {name:"Frieren",ex:0,pn:"Supreme+",power:"30906K"},
+  {name:"Tasi",ex:0,pn:"Supreme+",power:"30602K"},
+  {name:"Zandrok",ex:0,pn:"Supreme+",power:"30335K"},
+  {name:"Ludovic",ex:0,pn:"Supreme+",power:"29264K"},
+  {name:"Rowan",ex:0,pn:"Supreme+",power:"27844K"},
+  {name:"Satrana",ex:0,pn:"Supreme+",power:"27767K"},
+  {name:"Himmel",ex:0,pn:"Supreme+",power:"27252K"},
+  {name:"Kruger",ex:0,pn:"Supreme+",power:"27121K"},
+  {name:"Gunnar",ex:0,pn:"Supreme+",power:"28614K"},
+  {name:"Lucca",ex:0,pn:"Supreme+",power:"26720K"},
+  {name:"Solise",ex:0,pn:"Supreme+",power:"31289K"},
+  {name:"Alsa",ex:0,pn:"Supreme+",power:"24575K"},
+  {name:"Cecia",ex:0,pn:"Supreme+",power:"24564K"},
+  {name:"Cyran",ex:0,pn:"Supreme+",power:"24251K"},
+  {name:"Perseus",ex:0,pn:"Supreme+",power:"24145K"},
+  {name:"Lily May",ex:0,pn:"Supreme+",power:"24111K"},
+  {name:"Hewynn",ex:0,pn:"Supreme+",power:"23558K"},
+  {name:"Smokey & Meerky",ex:0,pn:"Supreme+",power:"23482K"},
+  {name:"Velara",ex:0,pn:"Supreme+",power:"23022K"},
+  {name:"Marilee",ex:0,pn:"Supreme+",power:"21942K"},
+  {name:"Kafra",ex:0,pn:"Supreme+",power:"21703K"},
+  {name:"Lucius",ex:0,pn:"Supreme+",power:"21255K"},
+  {name:"Reinier",ex:0,pn:"Supreme+",power:"21123K"},
+  {name:"Damian",ex:0,pn:"Supreme+",power:"20903K"},
+  {name:"Cassadee",ex:0,pn:"Supreme+",power:"20636K"},
+  {name:"Viperian",ex:0,pn:"Supreme+",power:"20625K"},
+  {name:"Eironn",ex:0,pn:"Supreme+",power:"20506K"},
+  {name:"Shakir",ex:0,pn:"Supreme+",power:"20486K"},
+  {name:"Pippa",ex:0,pn:"Supreme+",power:"20426K"},
+  {name:"Atalanta",ex:0,pn:"Supreme+",power:"20389K"},
+  {name:"Dionel",ex:0,pn:"Supreme+",power:"20315K"},
+  {name:"Arden",ex:0,pn:"Supreme+",power:"20284K"},
+  {name:"Igor",ex:0,pn:"Supreme+",power:"20134K"},
+  {name:"Lyca",ex:0,pn:"Supreme+",power:"20119K"},
+  {name:"Bryon",ex:0,pn:"Supreme+",power:"20066K"},
+  {name:"Tilaya",ex:0,pn:"Supreme+",power:"19961K"},
+  {name:"Florabelle",ex:0,pn:"Supreme+",power:"19807K"},
+  {name:"Temesia",ex:0,pn:"Supreme+",power:"19721K"},
+  {name:"Lumont",ex:0,pn:"Supreme+",power:"19688K"},
+  {name:"Callan",ex:0,pn:"Supreme+",power:"19354K"},
+  {name:"Antandra",ex:0,pn:"Supreme+",power:"19354K"},
+  {name:"Evie",ex:0,pn:"Supreme+",power:"19270K"},
+  {name:"Elijah & Lailah",ex:0,pn:"Supreme+",power:"19224K"},
+  {name:"Lorsan",ex:0,pn:"Supreme+",power:"19024K"},
+  {name:"Fay",ex:0,pn:"Supreme+",power:"19013K"},
+  {name:"Niru",ex:0,pn:"Supreme+",power:"19011K"},
   {name:"Lenya",ex:0,pn:"Supreme+",power:"18746K"},
+  {name:"Larisa",ex:0,pn:"Supreme+",power:"18659K"},
+  {name:"Mirael",ex:0,pn:"Supreme+",power:"18632K"},
+  {name:"Sinbad",ex:0,pn:"Supreme+",power:"18548K"},
+  {name:"Salazer",ex:0,pn:"Supreme+",power:"18536K"},
+  {name:"Silvina",ex:0,pn:"Supreme+",power:"18511K"},
+  {name:"Seth",ex:0,pn:"Supreme+",power:"18509K"},
+  {name:"Soren",ex:0,pn:"Supreme+",power:"18491K"},
+  {name:"Valka",ex:0,pn:"Supreme+",power:"18487K"},
+  {name:"Korin",ex:0,pn:"Supreme+",power:"18189K"},
+  {name:"Valen",ex:0,pn:"Supreme+",power:"18116K"},
+  {name:"Gerda",ex:0,pn:"Supreme+",power:"17673K"},
+  {name:"Walker",ex:0,pn:"Supreme+",power:"17455K"},
+  {name:"Ulmus",ex:0,pn:"Supreme+",power:"16321K"},
+  {name:"Chippy",ex:0,pn:"Supreme+",power:"15683K"},
+  {name:"Hammie",ex:0,pn:"Supreme+",power:"15366K"}
 ];
-function loadS(){try{const s=localStorage.getItem('afk3');if(s)return JSON.parse(s);}
+function loadS(){try{const s=localStorage.getItem('afk3');if(s)return JSON.parse(s);}catch(e){}return{mycs:JSON.parse(JSON.stringify(DEF_MYCS)),nams:[]};}
 function saveS(){localStorage.setItem('afk3',JSON.stringify(state));}
 let state=loadS();
 let prof='mycs',sel=null,fac='all';
@@ -467,7 +524,8 @@ function renderL(){
     const t=TL[h.name]||{};
     const c=cc(t.cat||'');
     const s=sel===h.name;
-    return`<div class="hi${s?(isN?' sn':' sm'):''}" onclick="selH('${h.name}')">
+    const safeName=h.name.replace(/'/g,"&#39;");
+    return`<div class="hi${s?(isN?' sn':' sm'):''}" data-name="${safeName}" onclick="selH(this.dataset.name)">
       <div class="hdot" style="background:${c}"></div>
       <span class="hn">${h.name}</span>
       ${t.tier?`<span class="tb ${t.tier==='S'?'ts':'ta'}">${t.tier}</span>`:''}
@@ -502,7 +560,7 @@ function selH(name){
   const exLabel=hero.ex===-1?'Non débloqué':hero.ex===0?'+0 (débloqué)':('+'+hero.ex);
   let exCapLabel,exCapColor,exCapIcon;
   if(excap===undefined||excap===null){exCapLabel='Cap : +10';exCapColor='#ffd700';exCapIcon='🎯';}
-  else if(excap===-1){exCapLabel="Pas d'EX recommandé";exCapColor='#6e7681';exCapIcon='⊘';}
+  else if(excap===-1){exCapLabel="Pas d'EX recommandé";exCapColor="#6e7681";exCapIcon="⊘";}
   else if(excap===0){exCapLabel='EX non prioritaire';exCapColor='#8b949e';exCapIcon='◦';}
   else if(excap===10){exCapLabel='Cap recommandé : +10';exCapColor='#ffd700';exCapIcon='🎯';}
   else if(excap===15){exCapLabel='Cap recommandé : +15';exCapColor='#3fb950';exCapIcon='⭐';}
@@ -558,23 +616,23 @@ function selH(name){
     <div class="sec"><h3>Modifier le héros</h3>
       <div class="eg">
         <div class="ef"><label>Niveau EX</label>
-          <select id="ex-select" onchange="ed('ex',this.value,'${name}');updateExCard(this.value,'${name}')">${exOpts}</select>
+          <select id="ex-select" data-hero="${name}" onchange="ed('ex',this.value,this.dataset.hero);updateExCard(this.value,this.dataset.hero)">${exOpts}</select>
         </div>
-        <div class="ef"><label>Parangon</label><select onchange="ed('pn',this.value,'${name}')">${pnOpts}</select></div>
+        <div class="ef"><label>Parangon</label><select data-hero="${name}" onchange="ed('pn',this.value,this.dataset.hero)">${pnOpts}</select></div>
         <div class="ef" style="grid-column:span 2"><label>Puissance</label>
-          <input type="text" value="${hero.power||''}" placeholder="ex: 68000K" oninput="ed('power',this.value,'${name}')">
+          <input type="text" value="${hero.power||''}" placeholder="ex: 68000K" data-hero="${name}" oninput="ed('power',this.value,this.dataset.hero)">
         </div>
       </div>
       <div class="ea">
-        <button class="btn bsv" onclick="sv('${name}')">✓ Sauvegarder</button>
-        <button class="btn bdl" onclick="dl('${name}')">Supprimer</button>
+        <button class="btn bsv" data-hero="${name}" onclick="sv(this.dataset.hero)">✓ Sauvegarder</button>
+        <button class="btn bdl" data-hero="${name}" onclick="dl(this.dataset.hero)">Supprimer</button>
       </div>
     </div>
     <div class="sec"><h3>Équipes recommandées</h3>${tHTML}</div>
     <div class="aiw"><h3>✦ Question IA</h3>
       <div class="air">
-        <input type="text" id="aiq" placeholder="Ex: contre quel boss utiliser ${name} ?" onkeydown="if(event.key==='Enter')ai('${name}')">
-        <button onclick="ai('${name}')">→</button>
+        <input type="text" id="aiq" placeholder="Ex: contre quel boss utiliser ${name} ?" data-hero="${name}" onkeydown="if(event.key==='Enter')ai(this.dataset.hero)">
+        <button data-hero="${name}" onclick="ai(this.dataset.hero)">→</button>
       </div>
       <div id="ail" class="ail">✦ Analyse en cours...</div>
       <div id="air2" class="airesp"></div>
@@ -691,7 +749,7 @@ function updateExCard(rawVal, heroName) {
   // Cap label
   let capLabel, capColor, capIcon;
   if(excap===undefined||excap===null){capLabel='Cap : +10';capColor='#ffd700';capIcon='🎯';}
-  else if(excap===-1){capLabel='Pas d'EX recommandé';capColor='#6e7681';capIcon='⊘';}
+  else if(excap===-1){capLabel="Pas d'EX recommandé";capColor="#6e7681";capIcon="⊘";}
   else if(excap===0){capLabel='EX non prioritaire';capColor='#8b949e';capIcon='◦';}
   else if(excap===10){capLabel='Cap recommandé : +10';capColor='#ffd700';capIcon='🎯';}
   else if(excap===15){capLabel='Cap recommandé : +15';capColor='#3fb950';capIcon='⭐';}
