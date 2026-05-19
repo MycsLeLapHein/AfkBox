@@ -539,29 +539,46 @@ function updateExCard(rawVal, heroName) {
 
 // ── FIREBASE INIT ───────────────────────────────────────────────
 function initFirebase() {
-  if(typeof window.listenFirebase !== 'function') {
-    // Firebase module not loaded yet, retry
-    setTimeout(initFirebase, 500);
-    return;
-  }
-  showSyncStatus('⟳ Chargement...', '#ffd700');
+  // App already loaded locally — Firebase connects in background
+  showSyncStatus('⟳ Connexion...', '#8b949e');
+
+  // Wait max 5s for Firebase SDK to load
+  let attempts = 0;
+  const tryConnect = setInterval(() => {
+    attempts++;
+    if(typeof window.listenFirebase === 'function') {
+      clearInterval(tryConnect);
+      connectFirebase();
+    } else if(attempts > 10) {
+      clearInterval(tryConnect);
+      showSyncStatus('✗ Hors ligne', '#f85149');
+    }
+  }, 500);
+}
+
+function connectFirebase() {
   let firstLoad = true;
   window.listenFirebase(function(data) {
     if(firstLoad) {
       firstLoad = false;
-      // Firebase has data — use it as source of truth
-      if(data.mycs || data.nams) {
+      // Only load from Firebase if it has more heroes than local
+      const fbMycs = data.mycs?.length || 0;
+      const fbNams = data.nams?.length || 0;
+      const localMycs = state.mycs?.length || 0;
+      const localNams = state.nams?.length || 0;
+      if(fbMycs >= localMycs && fbNams >= localNams && (fbMycs + fbNams) > 0) {
         state.mycs = data.mycs || [];
         state.nams = data.nams || [];
         localStorage.setItem('afk3', JSON.stringify(state));
-        sel = null;
         renderS();
-        document.getElementById('main').innerHTML = '<div class="empty-state"><div class="ei">☁</div><p>Box synchronisée !</p><small>Mycs : '+(state.mycs?.length||0)+' héros · Nams : '+(state.nams?.length||0)+' héros</small></div>';
+      }
+      // If local is newer/bigger, push local to Firebase
+      else if((localMycs + localNams) > 0) {
+        window.saveToFirebase(state);
       }
       showSyncStatus('✓ En ligne', '#3fb950');
     } else {
       // Live update from another device
-      const wasMycs = state.mycs?.length;
       state.mycs = data.mycs || [];
       state.nams = data.nams || [];
       localStorage.setItem('afk3', JSON.stringify(state));
