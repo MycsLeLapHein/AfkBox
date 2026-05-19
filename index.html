@@ -725,7 +725,7 @@ function exportBox(){
   const a=document.createElement('a');
   a.href=url;a.download='afk-box-'+new Date().toISOString().slice(0,10)+'.json';a.click();
   URL.revokeObjectURL(url);
-  setTimeout(()=>window.open('https://drive.google.com/drive/my-drive','_blank'),600);
+
 }
 function importBox(event){
   const file=event.target.files[0];if(!file)return;
