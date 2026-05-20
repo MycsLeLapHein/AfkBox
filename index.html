@@ -140,6 +140,13 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .bo:hover{opacity:.85}
 
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+/* Mobile touch fixes */
+button{-webkit-tap-highlight-color:rgba(255,107,53,.2);touch-action:manipulation;cursor:pointer}
+.hi{-webkit-tap-highlight-color:rgba(255,255,255,.05);touch-action:manipulation}
+.box-tab{-webkit-tap-highlight-color:rgba(255,107,53,.2);touch-action:manipulation}
+.add-box-btn{-webkit-tap-highlight-color:rgba(255,107,53,.2);touch-action:manipulation}
+* {-webkit-tap-highlight-color:transparent}
+button, .hi, .box-tab, .add-box-btn, .fb, .tbtn, .color-opt {touch-action:manipulation}
 
 /* MOBILE */
 @media(max-width:768px){
@@ -298,7 +305,4 @@ const TL={
 "Pandora":{tier:"S",faction:"Dimensionnel",dr:0.0,stage:4.0,pvp:0.0,cat:"REQUIRED",rank:6,role:"Soutien",note:"Dégâts zone, excellent stages.",excap:10},
 "Cyran":{tier:"S",faction:"Porteur de lumière",dr:4.0,stage:1.5,pvp:0.0,cat:"High Impact",rank:7,role:"Archer",note:"Excellent DR Boss (4.0), très fort stages.",excap:0},
 "Velara":{tier:"S",faction:"Sauvageon",dr:0.5,stage:-1.0,pvp:2.65,cat:"High Impact",rank:8,role:"Soutien",note:"Cercle d'affaiblissement, fort PvP.",excap:10},
-"Ravion":{tier:"S",faction:"Sauvageon",dr:2.0,stage:4.0,pvp:1.5,cat:"High Impact",rank:9,role:"Assassin",note:"Excellente en stages (score 4.0).",excap:10},
-"Lily May":{tier:"S",faction:"Sauvageon",dr:3.5,stage:1.5,pvp:0.35,cat:"High Impact",rank:10,role:"Assassin",note:"Interrompt les ultimes ennemis, excellent DR.",excap:10},
-"Zanie":{tier:"A",faction:"Porteur de lumière",dr:1.5,stage:2.0,pvp:2.15,cat:"High Impact",rank:11,role:"Archer",note:"Tourelles PvE, bon équilibre PvE/PvP.",excap:10},
-"Ludovic":{tier:"S",faction:"Mort-vivant",dr:1.0,stage:3.0,pvp:1.0,cat:"Hig
+"Ravion":{tier:"S",faction:"Sauvageon",dr:2.0,stage:4.0,pvp:1.5,cat
