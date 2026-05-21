@@ -1,70 +1,122 @@
 // ═══════════════════════════════════════════════════════
-// synergies.js — Équipes recommandées par héros
-// Modifie ce fichier pour mettre à jour les synergies
+// heroes.js — Base de données des héros AFK Journey
+// Modifie ce fichier pour ajouter/supprimer des héros
 // ═══════════════════════════════════════════════════════
 
-const SYN={
-"Shemira":[
-  {name:"Full Mort-vivant sustain",heroes:["Shemira","Daimon","Ludovic","Bonnie","Thoran"],desc:"Synergie Mort-vivant : vol de vie permanent, Daimon tank, Ludovic soins, Thoran renvoie les dégâts.",mode:"Story Stages"},
-  {name:"Shemira carry PvP",heroes:["Shemira","Velara","Silven","Zanie","Hugin"],desc:"Velara affaiblit, Silven et Hugin amplifient les dégâts magiques de Shemira.",mode:"PvP"},
-],
-"Galahad":[
-  {name:"Galahad Pugiliste Assault",heroes:["Galahad","Shakir","Smokey & Meerky","Koko","Nazrik"],desc:"Synergie Pugiliste : Galahad carry magique, Smokey soigne, Koko réduit dégâts, Shakir et Nazrik en front.",mode:"PvE & PvP"},
-  {name:"Galahad batterie énergie",heroes:["Galahad","Rowan","Hugin","Tasi","Aurora"],desc:"Rowan régénère énergie, Tasi contrôle, Hugin booste, Aurora bonus Céleste.",mode:"Dream Realm"},
-],
-"Daimon":[
-  {name:"Daimon tank frontline",heroes:["Daimon","Shemira","Ludovic","Rowan","Tasi"],desc:"Daimon absorbe en front, Shemira DPS, Ludovic soins, Rowan énergie, Tasi contrôle.",mode:"Story Stages"},
-  {name:"Daimon DR boss",heroes:["Daimon","Cyran","Tasi","Odie","Aurora"],desc:"Daimon tank boss, Cyran DR 4.0, Odie DPS, Tasi contrôle, Aurora bonus Céleste.",mode:"Dream Realm"},
-],
-"Tasi":[
-  {name:"Tasi contrôle masse",heroes:["Tasi","Faramor","Shemira","Velara","Hugin"],desc:"Tasi contrôle les vagues, Faramor anti-buff, Shemira DPS, Velara affaiblit, Hugin booste.",mode:"Story Stages"},
-  {name:"Tasi DR spécialistes",heroes:["Tasi","Cyran","Odie","Daimon","Rowan"],desc:"Tasi contrôle boss, Cyran et Odie dégâts max DR, Daimon absorbe, Rowan énergie.",mode:"Dream Realm"},
-],
-"Odie":[
-  {name:"Odie DPS universel",heroes:["Odie","Eironn","Tasi","Rowan","Velara"],desc:"Eironn regroupe, Tasi contrôle, Velara affaiblit — Odie DPS dans la zone idéale.",mode:"Dream Realm & Stages"},
-],
-"Aurora":[
-  {name:"Aurora full Céleste",heroes:["Aurora","Elijah & Lailah","Dionel","Reinier","Gunnar"],desc:"Full Céleste/Hypo : bonus faction sur boss. Aurora DPS, Elijah liaison, Dionel zone.",mode:"Dream Realm"},
-],
-"Cyran":[
-  {name:"Cyran DR spécialiste",heroes:["Cyran","Tasi","Odie","Daimon","Rowan"],desc:"Cyran DR 4.0 maximum. Tasi contrôle boss, Odie DPS, Daimon absorbe, Rowan énergie.",mode:"Dream Realm"},
-],
-"Eironn":[
-  {name:"Eironn aspirateur masse",heroes:["Eironn","Tasi","Velara","Arden","Odie"],desc:"Eironn aspire tous les ennemis, Tasi contrôle, Velara affaiblit, Arden foudroie, Odie DPS.",mode:"Story Stages"},
-],
-"Rowan":[
-  {name:"Rowan batterie énergie",heroes:["Rowan","Shemira","Galahad","Tasi","Odie"],desc:"Rowan régénère l'énergie pour des ultimes fréquents. Incontournable en DR.",mode:"Dream Realm"},
-],
-"Elijah & Lailah":[
-  {name:"Full Céleste optimale",heroes:["Elijah & Lailah","Aurora","Dionel","Reinier","Gunnar"],desc:"Full Céleste/Hypo : bonus faction massif. Elijah liaison, Aurora DPS, Dionel zone.",mode:"Dream Realm"},
-],
-"Lily May":[
-  {name:"Lily May DR",heroes:["Lily May","Cyran","Odie","Daimon","Aurora"],desc:"Lily May DR 3.5, combinée avec Cyran et Odie pour maximiser les dégâts boss.",mode:"Dream Realm"},
-],
-"Frieren":[
-  {name:"Frieren Collab stages",heroes:["Frieren","Himmel","Tasi","Rowan","Velara"],desc:"Synergie Collab : Frieren mage puissant, Himmel guerrier, Tasi contrôle, Velara affaiblit.",mode:"Story Stages"},
-],
+const TL={
+"Shemira":{tier:"S",faction:"Mort-vivant",dr:0.5,stage:4.0,pvp:0.5,cat:"SHEMIRA",rank:1,role:"Mage",note:"Vol de vie massif, tank mage auto-sustain.",excap:15},
+"Galahad":{tier:"S",faction:"Pugiliste",dr:0.0,stage:1.0,pvp:1.5,cat:"REQUIRED",rank:2,role:"Mage",note:"Carry magique PvE très puissant.",excap:15},
+"Silven":{tier:"A",faction:"Porteur de lumière",dr:0.5,stage:0.5,pvp:2.3,cat:"REQUIRED",rank:3,role:"Archer",note:"REQUIRED rang 3. Fort PvP et support allié.",excap:10},
+"Solise":{tier:"S",faction:"Sauvageon",dr:0.5,stage:1.5,pvp:1.0,cat:"REQUIRED",rank:4,role:"Soutien",note:"Soins + offensif, REQUIRED rang 4.",excap:10},
+"Daimon":{tier:"S",faction:"Mort-vivant",dr:2.0,stage:3.0,pvp:0.65,cat:"REQUIRED",rank:5,role:"Tank",note:"Tank magique, dégâts zone puissants sur boss.",excap:10},
+"Pandora":{tier:"S",faction:"Dimensionnel",dr:0.5,stage:4.0,pvp:0.0,cat:"REQUIRED",rank:6,role:"Soutien",note:"Dégâts zone, excellent stages.",excap:10},
+"Cyran":{tier:"S",faction:"Porteur de lumière",dr:4.0,stage:1.5,pvp:0.0,cat:"High Impact",rank:7,role:"Archer",note:"Excellent DR Boss (4.0), très fort stages.",excap:10},
+"Velara":{tier:"S",faction:"Sauvageon",dr:0.5,stage:-1.0,pvp:2.65,cat:"High Impact",rank:8,role:"Soutien",note:"Cercle d'affaiblissement, fort PvP.",excap:10},
+"Ravion":{tier:"S",faction:"Sauvageon",dr:2.0,stage:4.0,pvp:1.5,cat:"High Impact",rank:9,role:"Assassin",note:"Excellente en stages (score 4.0).",excap:10},
+"Lily May":{tier:"S",faction:"Sauvageon",dr:3.5,stage:1.5,pvp:0.35,cat:"High Impact",rank:10,role:"Assassin",note:"Interrompt les ultimes ennemis, excellent DR.",excap:10},
+"Zanie":{tier:"A",faction:"Porteur de lumière",dr:1.5,stage:2.0,pvp:2.15,cat:"High Impact",rank:11,role:"Archer",note:"Tourelles PvE, bon équilibre PvE/PvP.",excap:10},
+"Ludovic":{tier:"S",faction:"Mort-vivant",dr:1.0,stage:3.0,pvp:1.0,cat:"High Impact",rank:12,role:"Soutien",note:"Soins + vol de vie, support stages solide.",excap:10},
+"Faramor":{tier:"A",faction:"Sauvageon",dr:1.5,stage:1.0,pvp:1.65,cat:"High Impact",rank:13,role:"Assassin",note:"Excellent contre puissance salvatrice.",excap:10},
+"Aile d'ombre":{tier:"A",faction:"Mort-vivant",dr:1.0,stage:1.5,pvp:2.15,cat:"High Impact",rank:14,role:"Assassin",note:"DPS continu, bon PvP.",excap:10},
+"Hugin":{tier:"A",faction:"Porteur de lumière",dr:2.0,stage:0.0,pvp:0.65,cat:"High Impact",rank:15,role:"Soutien",note:"Buffs alliés, bon DR Boss.",excap:10},
+"Tasi":{tier:"S",faction:"Sauvageon",dr:4.0,stage:2.0,pvp:1.5,cat:"Nice to Have",rank:16,role:"Mage",note:"Contrôle masse indispensable, DR excellent.",excap:10},
+"Perseus":{tier:"S",faction:"Porteur de lumière",dr:4.0,stage:4.0,pvp:0.5,cat:"Nice to Have",rank:17,role:"Guerrier",note:"Lance et bouclier, très bon stages.",excap:10},
+"Bonnie":{tier:"A",faction:"Mort-vivant",dr:3.0,stage:2.0,pvp:1.0,cat:"Nice to Have",rank:18,role:"Archer",note:"Affaiblit les ennemis, polyvalente.",excap:15},
+"Cassadee":{tier:"S",faction:"Porteur de lumière",dr:0.5,stage:4.0,pvp:3.3,cat:"Nice to Have",rank:19,role:"Mage",note:"Dégâts zone + buffs, bon PvP.",excap:10},
+"Nazrik":{tier:"S",faction:"Pugiliste",dr:2.0,stage:4.0,pvp:3.5,cat:"Nice to Have",rank:20,role:"Archer",note:"Excellent stages et PvP.",excap:10},
+"Valka":{tier:"A",faction:"Mort-vivant",dr:1.5,stage:4.0,pvp:2.45,cat:"Nice to Have",rank:21,role:"Guerrier",note:"Art de l'épée, bon stages.",excap:10},
+"Shakir":{tier:"S",faction:"Pugiliste",dr:2.5,stage:4.0,pvp:1.8,cat:"Nice to Have",rank:22,role:"Assassin",note:"Forme lupine, fort stages.",excap:0},
+"Sinbad":{tier:"A",faction:"Porteur de lumière",dr:2.0,stage:4.0,pvp:4.0,cat:"Nice to Have",rank:23,role:"Assassin",note:"Excellent PvP et stages.",excap:10},
+"Smokey & Meerky":{tier:"S",faction:"Pugiliste",dr:2.0,stage:2.5,pvp:4.0,cat:"Nice to Have",rank:24,role:"Soutien",note:"Soins + buffs proches, fort PvP.",excap:10},
+"Thador":{tier:"A",faction:"Sauvageon",dr:4.0,stage:-1.0,pvp:1.0,cat:"Niche",rank:25,role:"Tank",note:"Tank solide, excellent DR Boss.",excap:15},
+"Eironn":{tier:"S",faction:"Sauvageon",dr:4.0,stage:0.0,pvp:1.5,cat:"Niche",rank:26,role:"Assassin",note:"Attire les ennemis, synergie zone parfaite.",excap:10},
+"Zandrok":{tier:"S",faction:"Pugiliste",dr:4.0,stage:0.5,pvp:1.15,cat:"Niche",rank:27,role:"Guerrier",note:"Guerrier physique Pugiliste solide.",excap:10},
+"Kordan":{tier:"A",faction:"Pugiliste",dr:0.5,stage:4.0,pvp:1.65,cat:"Niche",rank:28,role:"Guerrier",note:"Réduction armure physique.",excap:10},
+"Silvina":{tier:"A",faction:"Mort-vivant",dr:4.0,stage:4.0,pvp:1.5,cat:"Niche",rank:29,role:"Assassin",note:"Assassin téléportation, fort PvE.",excap:10},
+"Zorya":{tier:"S",faction:"Mort-vivant",dr:4.0,stage:4.0,pvp:1.0,cat:"Niche",rank:30,role:"Guerrier",note:"Dégâts zone, fort PvE.",excap:10},
+"Lenya":{tier:"A",faction:"Sauvageon",dr:2.5,stage:4.0,pvp:2.15,cat:"Niche",rank:31,role:"Assassin",note:"Duels ennemis puissants.",excap:10},
+"Vala":{tier:"S",faction:"Porteur de lumière",dr:4.0,stage:4.0,pvp:1.5,cat:"Niche",rank:32,role:"Archer",note:"Bon PvE stages et DR.",excap:10},
+"Pang":{tier:"S",faction:"Sauvageon",dr:4.0,stage:4.0,pvp:1.8,cat:"Niche",rank:33,role:"Guerrier",note:"Bon PvE polyvalent.",excap:10},
+"Odie":{tier:"A",faction:"Pugiliste",dr:4.0,stage:4.0,pvp:4.0,cat:"Niche",rank:34,role:"Archer",note:"Excellent DR Boss et stages, très polyvalent.",excap:10},
+"Sonja":{tier:"S",faction:"Porteur de lumière",dr:2.0,stage:4.0,pvp:4.0,cat:"Niche",rank:35,role:"Archer",note:"Excellent PvP et stages.",excap:10},
+"Igor":{tier:"S",faction:"Mort-vivant",dr:4.0,stage:4.0,pvp:1.0,cat:"Niche",rank:36,role:"Guerrier",note:"Dégâts zone tombes, fort PvE.",excap:10},
+"Carolina":{tier:"S",faction:"Mort-vivant",dr:4.0,stage:3.5,pvp:3.0,cat:"Niche",rank:37,role:"Mage",note:"Contrôle + dégâts bonus, bon PvE.",excap:10},
+"Mikola":{tier:"S",faction:"Pugiliste",dr:2.0,stage:3.0,pvp:1.95,cat:"Niche",rank:38,role:"Guerrier",note:"Soutien Pugiliste polyvalent.",excap:10},
+"Rowan":{tier:"S",faction:"Porteur de lumière",dr:4.0,stage:1.5,pvp:1.15,cat:"Stretch",rank:39,role:"Soutien",note:"Régénère PV + énergie, excellent DR.",excap:15},
+"Florabelle":{tier:"S",faction:"Sauvageon",dr:1.0,stage:2.5,pvp:2.5,cat:"Stretch",rank:40,role:"Guerrier",note:"Invoque créatures de plantes.",excap:15},
+"Callan":{tier:"A",faction:"Mort-vivant",dr:4.0,stage:2.5,pvp:0.5,cat:"Stretch",rank:41,role:"Tank",note:"Bouclier défensif.",excap:15},
+"Tilaya":{tier:"A",faction:"Sauvageon",dr:4.0,stage:4.0,pvp:1.5,cat:"Stretch",rank:42,role:"Guerrier",note:"Épée colossale et plantes.",excap:10},
+"Hewynn":{tier:"S",faction:"Sauvageon",dr:4.0,stage:4.0,pvp:2.65,cat:"Stretch",rank:43,role:"Soutien",note:"Soins continus, très bon PvE.",excap:10},
+"Pippa":{tier:"S",faction:"Sauvageon",dr:4.0,stage:4.0,pvp:2.0,cat:"Stretch",rank:44,role:"Mage",note:"Mage zone aléatoire.",excap:15},
+"Satrana":{tier:"A",faction:"Pugiliste",dr:4.0,stage:3.5,pvp:0.5,cat:"Stretch",rank:45,role:"Guerrier",note:"Dégâts continus de feu.",excap:15},
+"Mirael":{tier:"A",faction:"Porteur de lumière",dr:4.0,stage:4.0,pvp:4.0,cat:"Stretch",rank:46,role:"Mage",note:"Dégâts lourds mais fragile.",excap:10},
+"Gerda":{tier:"A",faction:"Pugiliste",dr:4.0,stage:2.5,pvp:2.0,cat:"Stretch",rank:47,role:"Tank",note:"Perturbe attaques ennemies.",excap:15},
+"Damian":{tier:"A",faction:"Sauvageon",dr:4.0,stage:4.0,pvp:2.0,cat:"Stretch",rank:48,role:"Soutien",note:"Soins + interruption.",excap:10},
+"Arden":{tier:"A",faction:"Sauvageon",dr:4.0,stage:2.5,pvp:3.65,cat:"Stretch",rank:49,role:"Mage",note:"Foudroie ennemis contrôlés.",excap:10},
+"Koko":{tier:"A",faction:"Pugiliste",dr:3.0,stage:2.0,pvp:2.3,cat:"Stretch",rank:50,role:"Soutien",note:"Réduction dégâts alliés.",excap:15},
+"Parisa":{tier:"A",faction:"Sauvageon",dr:4.0,stage:4.0,pvp:4.0,cat:"Stretch",rank:51,role:"Assassin",note:"Bon PvE et PvP polyvalent.",excap:10},
+"Thoran":{tier:"S",faction:"Mort-vivant",dr:2.5,stage:2.5,pvp:1.5,cat:"Stretch",rank:52,role:"Tank",note:"Renvoie dégâts aux ennemis.",excap:15},
+"Indris":{tier:"S",faction:"Sauvageon",dr:4.0,stage:4.0,pvp:3.0,cat:"Stretch",rank:53,role:"Archer",note:"Bon PvE polyvalent.",excap:10},
+"Nara":{tier:"S",faction:"Mort-vivant",dr:4.0,stage:4.0,pvp:2.0,cat:"Stretch",rank:54,role:"Guerrier",note:"Bon PvE stages et DR.",excap:15},
+"Isabella":{tier:"A",faction:"Mort-vivant",dr:3.0,stage:4.0,pvp:4.0,cat:"Stretch",rank:55,role:"Mage",note:"Fort PvP et stages.",excap:10},
+"Marilee":{tier:"A",faction:"Porteur de lumière",dr:4.0,stage:4.0,pvp:3.65,cat:"Stretch",rank:56,role:"Archer",note:"Efficace à distance.",excap:10},
+"Alsa":{tier:"S",faction:"Pugiliste",dr:4.0,stage:4.0,pvp:2.0,cat:"Stretch",rank:57,role:"Mage",note:"Submerge ennemis.",excap:10},
+"Ulmus":{tier:"A",faction:"Sauvageon",dr:4.0,stage:0.5,pvp:1.15,cat:"Stretch",rank:58,role:"Tank",note:"Tank résistant offensif.",excap:10},
+"Brutus":{tier:"S",faction:"Pugiliste",dr:4.0,stage:1.5,pvp:2.3,cat:"Stretch",rank:59,role:"Guerrier",note:"Guerrier Pugiliste, 1 copy suffisante.",excap:15},
+"Niru":{tier:"A",faction:"Mort-vivant",dr:4.0,stage:2.0,pvp:0.5,cat:"Stretch",rank:60,role:"Soutien",note:"Alliés efficaces en forme esprit.",excap:15},
+"Bryon":{tier:"S",faction:"Sauvageon",dr:3.0,stage:0.5,pvp:2.5,cat:"Stretch",rank:61,role:"Archer",note:"Archer + faucon, bon DR.",excap:15},
+"Heplar":{tier:"S",faction:"Pugiliste",dr:4.0,stage:4.0,pvp:1.65,cat:"Stretch",rank:62,role:"Tank",note:"Tank Pugiliste solide.",excap:10},
+"Lorsan":{tier:"S",faction:"Sauvageon",dr:4.0,stage:4.0,pvp:2.5,cat:"Stretch",rank:63,role:"Soutien",note:"Transfert dégâts ennemis.",excap:10},
+"Seth":{tier:"A",faction:"Pugiliste",dr:3.0,stage:4.0,pvp:2.3,cat:"Skip",rank:64,role:"Assassin",note:"Piège ennemis blessés.",excap:15},
+"Lyca":{tier:"A",faction:"Sauvageon",dr:3.0,stage:4.0,pvp:1.5,cat:"Skip",rank:65,role:"Archer",note:"Réduit DEF physique ennemie.",excap:15},
+"Walker":{tier:"A",faction:"Porteur de lumière",dr:4.0,stage:2.0,pvp:2.0,cat:"Skip",rank:66,role:"Assassin",note:"Chasse ennemis puissants.",excap:15},
+"Nerion":{tier:"A",faction:"Sauvageon",dr:2.0,stage:2.0,pvp:1.5,cat:"Skip",rank:67,role:"Archer",note:"Archer Sauvageon.",excap:10},
+"Hodgkin":{tier:"S",faction:"Mort-vivant",dr:4.0,stage:2.5,pvp:2.3,cat:"Skip",rank:68,role:"Guerrier",note:"Support Mort-vivant.",excap:15},
+"Soren":{tier:"A",faction:"Pugiliste",dr:4.0,stage:4.0,pvp:2.15,cat:"Skip",rank:68,role:"Assassin",note:"Terrain avantageux.",excap:15},
+"Korin":{tier:"A",faction:"Porteur de lumière",dr:4.0,stage:4.0,pvp:4.0,cat:"Skip",rank:69,role:"Guerrier",note:"Bras magiques distance.",excap:15},
+"Granny Dahnie":{tier:"S",faction:"Sauvageon",dr:4.0,stage:2.5,pvp:4.0,cat:"Skip",rank:70,role:"Tank",note:"Soins + PvP fort.",excap:15},
+"Atalanta":{tier:"S",faction:"Porteur de lumière",dr:4.0,stage:4.0,pvp:2.0,cat:"Skip",rank:71,role:"Archer",note:"Dégâts zone courte distance.",excap:15},
+"Viperian":{tier:"A",faction:"Mort-vivant",dr:4.0,stage:4.0,pvp:4.0,cat:"Skip",rank:72,role:"Mage",note:"Rituels vitaux dégâts zone.",excap:15},
+"Kruger":{tier:"A",faction:"Pugiliste",dr:2.0,stage:4.0,pvp:4.0,cat:"Skip",rank:73,role:"Guerrier",note:"Réduit DEF physique.",excap:15},
+"Lucca":{tier:"A",faction:"Porteur de lumière",dr:4.0,stage:3.0,pvp:2.8,cat:"Skip",rank:74,role:"Tank",note:"Tank protection alliés.",excap:15},
+"Kafra":{tier:"A",faction:"Sauvageon",dr:4.0,stage:4.0,pvp:2.15,cat:"Skip",rank:75,role:"Guerrier",note:"Charge première ligne.",excap:15},
+"Antandra":{tier:"A",faction:"Pugiliste",dr:4.0,stage:4.0,pvp:2.8,cat:"Skip",rank:76,role:"Tank",note:"Protection alliés.",excap:15},
+"Cecia":{tier:"S",faction:"Mort-vivant",dr:4.0,stage:4.0,pvp:4.0,cat:"Skip",rank:77,role:"Archer",note:"Contrôle + sbire.",excap:15},
+"Rhys":{tier:"S",faction:"Pugiliste",dr:4.0,stage:4.0,pvp:4.0,cat:"Skip",rank:78,role:"Archer",note:"Polyvalent fort.",excap:15},
+"Valen":{tier:"A",faction:"Porteur de lumière",dr:4.0,stage:4.0,pvp:4.0,cat:"Skip",rank:79,role:"Archer",note:"Dégâts zone mode amélioré.",excap:15},
+"Salazer":{tier:"A",faction:"Mort-vivant",dr:4.0,stage:4.0,pvp:4.0,cat:"Skip",rank:80,role:"Assassin",note:"Emprisonne ennemis faibles PV.",excap:15},
+"Lumont":{tier:"S",faction:"Pugiliste",dr:4.0,stage:2.5,pvp:2.15,cat:"Skip",rank:81,role:"Tank",note:"Absorbe dégâts mêlée.",excap:15},
+"Temesia":{tier:"S",faction:"Porteur de lumière",dr:4.0,stage:2.5,pvp:4.0,cat:"Skip",rank:82,role:"Tank",note:"Charge ligne arrière.",excap:15},
+"Fay":{tier:"A",faction:"Porteur de lumière",dr:3.0,stage:4.0,pvp:2.95,cat:"Skip",rank:83,role:"Soutien",note:"Gemme renforcement zone.",excap:15},
+"Lucius":{tier:"A",faction:"Porteur de lumière",dr:4.0,stage:4.0,pvp:4.0,cat:"Skip",rank:84,role:"Tank",note:"Boucliers alliés.",excap:15},
+"Frieren":{tier:"A",faction:"Collab",dr:0.0,stage:2.0,pvp:1.8,cat:"Collab",rank:101,role:"Mage",note:"Collab Frieren — fort en stages.",excap:10},
+"Himmel":{tier:"S",faction:"Collab",dr:3.0,stage:0.0,pvp:3.0,cat:"Collab",rank:102,role:"Guerrier",note:"Collab Frieren — très fort meta.",excap:10},
+"Marcille":{tier:"S",faction:"Collab",dr:4.0,stage:4.0,pvp:0.65,cat:"Collab",rank:103,role:"Mage",note:"Collab Dungeon Meshi — excellent DR et stages.",excap:15},
+"Natsu":{tier:"S",faction:"Collab",dr:4.0,stage:4.0,pvp:2.5,cat:"Collab",rank:104,role:"Guerrier",note:"Collab Fairy Tail — polyvalent fort.",excap:10},
+"Lucy":{tier:"S",faction:"Collab",dr:4.0,stage:-0.5,pvp:2.5,cat:"Collab",rank:105,role:"Mage",note:"Collab Fairy Tail — DPS zone.",excap:15},
+"Laios":{tier:"A",faction:"Collab",dr:4.0,stage:2.5,pvp:4.0,cat:"Collab",rank:106,role:"Guerrier",note:"Collab Dungeon Meshi — fort PvP.",excap:10},
+"Elijah & Lailah":{tier:"S",faction:"Céleste/Hypogéen",dr:0.0,stage:0.0,pvp:1.5,cat:"Céleste/Hypogéen",rank:201,role:"Soutien",note:"#1 Céleste — liaison alliés avec gros bonus.",excap:10},
+"Contess":{tier:"S",faction:"Céleste/Hypogéen",dr:0.0,stage:4.0,pvp:1.65,cat:"Céleste/Hypogéen",rank:202,role:"Mage",note:"Céleste — contrôle et stages.",excap:10},
+"Aliceth":{tier:"S",faction:"Céleste/Hypogéen",dr:0.5,stage:3.5,pvp:1.5,cat:"Céleste/Hypogéen",rank:203,role:"Soutien",note:"Céleste — soins et boucliers.",excap:10},
+"Baelran":{tier:"S",faction:"Céleste/Hypogéen",dr:1.5,stage:1.5,pvp:1.8,cat:"Céleste/Hypogéen",rank:204,role:"Guerrier",note:"Céleste — guerrier offensif.",excap:10},
+"Reinier":{tier:"S",faction:"Céleste/Hypogéen",dr:0.0,stage:2.5,pvp:1.5,cat:"Céleste/Hypogéen",rank:205,role:"Soutien",note:"Hypogéen — dimension.",excap:0},
+"Gunnar":{tier:"S",faction:"Céleste/Hypogéen",dr:0.5,stage:0.0,pvp:1.15,cat:"Céleste/Hypogéen",rank:206,role:"Tank",note:"Hypogéen — bombardements.",excap:10},
+"Alna":{tier:"S",faction:"Céleste/Hypogéen",dr:4.0,stage:-1.0,pvp:0.0,cat:"Céleste/Hypogéen",rank:207,role:"Archer",note:"Céleste — excellent DR Boss.",excap:10},
+"Athalia":{tier:"S",faction:"Céleste/Hypogéen",dr:2.0,stage:4.0,pvp:1.15,cat:"Céleste/Hypogéen",rank:208,role:"Guerrier",note:"Céleste — excellente en stages.",excap:10},
+"Aurora":{tier:"S",faction:"Céleste/Hypogéen",dr:1.5,stage:2.0,pvp:2.3,cat:"Céleste/Hypogéen",rank:209,role:"Mage",note:"Céleste — très forte sur les boss.",excap:10},
+"Mehira":{tier:"S",faction:"Céleste/Hypogéen",dr:1.0,stage:-1.0,pvp:1.0,cat:"Céleste/Hypogéen",rank:210,role:"Mage",note:"Céleste — contrôle mental.",excap:10},
+"Harak":{tier:"S",faction:"Céleste/Hypogéen",dr:2.0,stage:4.0,pvp:1.8,cat:"Céleste/Hypogéen",rank:211,role:"Guerrier",note:"Céleste — guerrier défensif.",excap:10},
+"Phraesto":{tier:"S",faction:"Céleste/Hypogéen",dr:2.5,stage:2.5,pvp:2.2,cat:"Céleste/Hypogéen",rank:212,role:"Tank",note:"Céleste — soutien offensif.",excap:10},
+"Cryonaia":{tier:"S",faction:"Céleste/Hypogéen",dr:2.5,stage:4.0,pvp:1.65,cat:"Céleste/Hypogéen",rank:213,role:"Mage",note:"Céleste — dégâts de glace.",excap:10},
+"Saida":{tier:"S",faction:"Céleste/Hypogéen",dr:4.0,stage:-1.0,pvp:1.65,cat:"Céleste/Hypogéen",rank:214,role:"Assassin",note:"Céleste — excellent DR Boss.",excap:10},
+"Talene":{tier:"S",faction:"Céleste/Hypogéen",dr:4.0,stage:4.0,pvp:2.0,cat:"Céleste/Hypogéen",rank:215,role:"Mage",note:"Céleste — phoenix, très fort PvE.",excap:10},
+"Dionel":{tier:"S",faction:"Céleste/Hypogéen",dr:4.0,stage:4.0,pvp:2.0,cat:"Céleste/Hypogéen",rank:216,role:"Archer",note:"Céleste — énormes dégâts zone.",excap:10},
+"Kulu":{tier:"S",faction:"Céleste/Hypogéen",dr:4.0,stage:1.5,pvp:1.5,cat:"Céleste/Hypogéen",rank:217,role:"Archer",note:"Céleste — tank DR fort.",excap:10},
+"Berial":{tier:"S",faction:"Céleste/Hypogéen",dr:4.0,stage:4.0,pvp:2.65,cat:"Céleste/Hypogéen",rank:218,role:"Guerrier",note:"Céleste — excellent DR et stages.",excap:10},
+"Dunlingr":{tier:"S",faction:"Céleste/Hypogéen",dr:4.0,stage:4.0,pvp:0.5,cat:"Céleste/Hypogéen",rank:219,role:"Tank",note:"Céleste — DR et stages élevés.",excap:10},
+"Scarlita":{tier:"S",faction:"Céleste/Hypogéen",dr:4.0,stage:4.0,pvp:2.65,cat:"Céleste/Hypogéen",rank:220,role:"Mage",note:"Céleste — fort PvE.",excap:10},
+"Evie":{tier:"S",faction:"Porteur de lumière",dr:2.0,stage:2.5,pvp:2.0,cat:"Stretch",rank:47,role:"Archer",note:"Infiltration lignes ennemies.",excap:10},
+"Larisa":{tier:"A",faction:"Sauvageon",dr:1.5,stage:2.5,pvp:1.5,cat:"Stretch",rank:58,role:"Mage",note:"Boost VIT ATQ alliés.",excap:10},
+"Chippy":{tier:"S",faction:"Porteur de lumière",dr:1.0,stage:2.0,pvp:1.0,cat:"Stretch",rank:62,role:"Tank",note:"Hamster imprévisible mais résistant.",excap:10},
+"Hammie":{tier:"S",faction:"Porteur de lumière",dr:1.0,stage:2.0,pvp:1.0,cat:"Stretch",rank:62,role:"Soutien",note:"Soutien Porteur de lumière.",excap:10},
 };
-
-function getTeams(n,p){
-  if(SYN[n]) return SYN[n];
-  const box=state.boxes.find(b=>b.id===p);
-  if(!box)return[];
-  const bnames=box.heroes.map(b=>b.name);
-  const tanks=bnames.filter(x=>x!==n&&TL[x]?.role==='Tank').sort((a,b)=>TL[a].rank-TL[b].rank);
-  const soutiens=bnames.filter(x=>x!==n&&TL[x]?.role==='Soutien').sort((a,b)=>TL[a].rank-TL[b].rank);
-  const dps=bnames.filter(x=>x!==n&&['Mage','Archer','Assassin','Guerrier'].includes(TL[x]?.role)).sort((a,b)=>TL[a].rank-TL[b].rank);
-  const drDps=bnames.filter(x=>x!==n&&TL[x]?.dr>=2.5).sort((a,b)=>TL[b].dr-TL[a].dr);
-  const team1=[n];
-  if(!['Tank'].includes(TL[n]?.role)&&tanks.length)team1.push(tanks[0]);
-  if(!['Soutien'].includes(TL[n]?.role)&&soutiens.length&&team1.length<5)team1.push(soutiens[0]);
-  for(const d of dps){if(team1.length>=5)break;if(!team1.includes(d))team1.push(d);}
-  const team2=[n];
-  if(!['Tank'].includes(TL[n]?.role)&&tanks.length)team2.push(tanks[0]);
-  if(!['Soutien'].includes(TL[n]?.role)&&soutiens.length&&team2.length<5)team2.push(soutiens[0]);
-  for(const d of drDps){if(team2.length>=5)break;if(!team2.includes(d))team2.push(d);}
-  return[
-    {name:"Équipe Équilibrée (1T+1S+3DPS)",heroes:team1,desc:"Composition standard : 1 Tank + 1 Soutien + 3 DPS. Adaptée stages et boss.",mode:"Story Stages"},
-    {name:"Équipe Dream Realm",heroes:team2,desc:"1 Tank + 1 Soutien + meilleurs scores DR de ta box.",mode:"Dream Realm"},
-  ];
-}
