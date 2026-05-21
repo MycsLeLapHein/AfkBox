@@ -30,6 +30,111 @@ let selHero=null,faction='all';
 function getActiveBox(){return state.boxes.find(b=>b.id===state.activeId)||null;}
 function getBox(){const b=getActiveBox();return b?b.heroes:[];}
 
+
+// ── PRIORITÉS EX ─────────────────────────────────────────────────
+function showExPriority() {
+  const box = getActiveBox();
+  if (!box) return;
+
+  // Get heroes from box that have EX data
+  const heroes = box.heroes.map(h => {
+    const t = TL[h.name] || {};
+    return {
+      name: h.name,
+      currentEx: h.ex,
+      cap: t.excap,
+      p10: t.p10,
+      p15: t.p15,
+      tier: t.tier,
+      cat: t.cat,
+    };
+  }).filter(h => h.p10 !== undefined);
+
+  // Sort priority for +10: heroes not yet at +10, sorted by p10 score (lower = more urgent)
+  const need10 = heroes
+    .filter(h => h.currentEx < 10 && h.cap >= 10 && h.p10 > 0)
+    .sort((a, b) => a.p10 - b.p10 || a.cap - b.cap);
+
+  // Sort priority for +15: heroes not yet at +15, cap=15, sorted by p15 score (higher = more gain)
+  const need15 = heroes
+    .filter(h => h.currentEx < 15 && h.cap === 15 && h.p15 >= 5)
+    .sort((a, b) => b.p15 - a.p15 || a.p10 - b.p10);
+
+  // Already done
+  const done = heroes.filter(h => h.currentEx >= h.cap && h.cap > 0);
+
+  const box_color = box.color || 'var(--accent)';
+  const catColors = {"SHEMIRA":"#ff0055","REQUIRED":"#ff4444","High Impact":"#ff8c00",
+    "Nice to Have":"#ffd700","Niche":"#7ec8e3","Stretch":"#6e7681","Céleste/Hypogéen":"#bf7fff",
+    "Collab":"#3fb950","Skip":"#555"};
+
+  function heroRow(h, showCap) {
+    const c = catColors[h.cat] || '#555';
+    const progress = h.cap > 0 ? Math.min(100, (h.currentEx / h.cap) * 100) : 0;
+    const exLabel = h.currentEx === -1 ? 'Non débloqué' : h.currentEx === 0 ? '+0' : '+' + h.currentEx;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;background:var(--bg3);margin-bottom:6px">
+      <div style="width:6px;height:6px;border-radius:50%;background:${c};flex-shrink:0"></div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+          <span style="font-size:13px;font-weight:600">${h.name}</span>
+          <span style="font-size:10px;padding:1px 5px;border-radius:4px;background:${c}22;color:${c}">${h.cat}</span>
+          ${h.tier ? `<span style="font-size:10px;font-weight:700;color:${h.tier==='S'?'var(--gold)':'var(--accent2)'}">${h.tier}</span>` : ''}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="flex:1;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden">
+            <div style="height:100%;width:${progress.toFixed(0)}%;background:${box_color};border-radius:2px;transition:width .3s"></div>
+          </div>
+          <span style="font-size:11px;color:var(--text2);flex-shrink:0">${exLabel} → <strong style="color:${box_color}">+${h.cap}</strong></span>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  const html = `<div class="detail">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+      <div style="font-size:24px">⭐</div>
+      <div>
+        <h2 style="font-size:18px;font-weight:700">Priorités EX — ${box.name}</h2>
+        <p style="font-size:12px;color:var(--text2);margin-top:2px">Basé sur ta tier list de référence (Apr 2026)</p>
+      </div>
+    </div>
+
+    ${need10.length > 0 ? `
+    <div class="sec">
+      <h3 style="color:var(--gold)">🎯 À monter à EX+10 en priorité (${Math.min(need10.length, 10)}/${need10.length})</h3>
+      <p style="font-size:11px;color:var(--text2);margin-bottom:10px">Score bas = plus urgent · basé sur l'importance du héros dans la méta</p>
+      ${need10.slice(0, 10).map(h => heroRow(h, true)).join('')}
+      ${need10.length > 10 ? `<p style="font-size:11px;color:var(--text3);text-align:center;margin-top:4px">+ ${need10.length - 10} autres héros...</p>` : ''}
+    </div>` : ''}
+
+    ${need15.length > 0 ? `
+    <div class="sec">
+      <h3 style="color:#3fb950">⭐ À monter à EX+15 en priorité (${Math.min(need15.length, 10)}/${need15.length})</h3>
+      <p style="font-size:11px;color:var(--text2);margin-bottom:10px">Score haut = plus de gain entre +10 et +15</p>
+      ${need15.slice(0, 10).map(h => heroRow(h, true)).join('')}
+      ${need15.length > 10 ? `<p style="font-size:11px;color:var(--text3);text-align:center;margin-top:4px">+ ${need15.length - 10} autres héros...</p>` : ''}
+    </div>` : ''}
+
+    ${done.length > 0 ? `
+    <div class="sec">
+      <h3 style="color:var(--green)">✓ Caps atteints (${done.length})</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+        ${done.map(h => `<span style="padding:3px 10px;border-radius:12px;background:rgba(63,185,80,.12);color:var(--green);font-size:12px;border:1px solid rgba(63,185,80,.3)">✓ ${h.name} +${h.currentEx}</span>`).join('')}
+      </div>
+    </div>` : ''}
+
+    ${need10.length === 0 && need15.length === 0 ? `
+    <div style="text-align:center;padding:40px;color:var(--text2)">
+      <div style="font-size:48px;opacity:.3">🎉</div>
+      <p style="margin-top:12px">Tous les caps EX sont atteints !</p>
+    </div>` : ''}
+  </div>`;
+
+  document.getElementById('main').innerHTML = html;
+  selHero = null;
+  renderL();
+}
+
 // ── BOX TABS ────────────────────────────────────────────────────
 function renderTabs(){
   const wrap=document.getElementById('box-tabs');
