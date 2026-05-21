@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AFK Journey — Box Manager</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- TOPBAR -->
+<div class="topbar">
+  <div>
+    <div class="topbar-logo">⚔ AFK Journey</div>
+    <div class="topbar-sub">Box Manager</div>
+  </div>
+  <div class="topbar-right">
+    <button class="tbtn" onclick="exportBox()">☁ <span>Export</span></button>
+    <button class="tbtn" onclick="document.getElementById('import-input').click()">📥 <span>Import</span></button>
+    <input type="file" id="import-input" accept=".json" style="display:none" onchange="importBox(event)">
+  </div>
+</div>
+
+<!-- BOX TABS -->
+<div class="box-tabs-wrap" id="box-tabs">
+  <button class="add-box-btn" onclick="openCreateBox()">+ Ajouter une box</button>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout" id="layout">
+  <div class="no-box" id="no-box-state">
+    <div class="big-icon">📦</div>
+    <h2>Aucune box</h2>
+    <p>Crée ta première box pour commencer à gérer tes héros !</p>
+    <button class="create-box-btn" onclick="openCreateBox()">+ Créer une box</button>
+  </div>
+</div>
+
+<!-- SIDEBAR (hidden until box selected) -->
+<div id="sidebar-wrap" style="display:none">
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="sav" id="sav">?</div>
+        <h2 id="stit">Ma Box</h2>
+        <span class="hcount" id="hcnt"></span>
+        <button class="add-btn" onclick="openM()">+ Ajouter</button>
+      </div>
+      <div class="sw"><input type="text" id="srch" placeholder="Rechercher..." oninput="renderL()"></div>
+      <div class="ff" id="ff"></div>
+      <div class="hl" id="hl"></div>
+    </div>
+    <div class="main" id="main">
+      <div class="empty-state"><div class="ei">⚔</div><p>Sélectionne un héros</p><small>ou clique "+ Ajouter"</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Créer une box -->
+<div class="overlay" id="ov-create">
+  <div class="modal">
+    <h3>🎮 Créer une box</h3>
+    <div class="mf">
+      <label>Nom du joueur</label>
+      <input type="text" id="box-name-input" placeholder="Ex: Mycs, Nams, Mon compte..." maxlength="20"
+        onkeydown="if(event.key==='Enter')confirmCreateBox()">
+    </div>
+    <div class="mf">
+      <label>Couleur</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px" id="color-picker">
+        <div class="color-opt" data-color="#ff6b35" onclick="pickColor(this)" style="width:28px;height:28px;border-radius:50%;background:#ff6b35;cursor:pointer;border:3px solid #ff6b35"></div>
+        <div class="color-opt" data-color="#4ecdc4" onclick="pickColor(this)" style="width:28px;height:28px;border-radius:50%;background:#4ecdc4;cursor:pointer;border:3px solid transparent"></div>
+        <div class="color-opt" data-color="#bf7fff" onclick="pickColor(this)" style="width:28px;height:28px;border-radius:50%;background:#bf7fff;cursor:pointer;border:3px solid transparent"></div>
+        <div class="color-opt" data-color="#ffd700" onclick="pickColor(this)" style="width:28px;height:28px;border-radius:50%;background:#ffd700;cursor:pointer;border:3px solid transparent"></div>
+        <div class="color-opt" data-color="#3fb950" onclick="pickColor(this)" style="width:28px;height:28px;border-radius:50%;background:#3fb950;cursor:pointer;border:3px solid transparent"></div>
+        <div class="color-opt" data-color="#f85149" onclick="pickColor(this)" style="width:28px;height:28px;border-radius:50%;background:#f85149;cursor:pointer;border:3px solid transparent"></div>
+        <div class="color-opt" data-color="#58a6ff" onclick="pickColor(this)" style="width:28px;height:28px;border-radius:50%;background:#58a6ff;cursor:pointer;border:3px solid transparent"></div>
+      </div>
+    </div>
+    <div class="ma">
+      <button class="bc" onclick="closeCreateBox()">Annuler</button>
+      <button class="bo" onclick="confirmCreateBox()">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Ajouter héros -->
+<div class="overlay" id="ov">
+  <div class="modal">
+    <h3 id="mtit">Ajouter un héros</h3>
+    <div class="mf">
+      <label>Héros <span id="mcount" style="color:var(--text3);font-weight:400"></span></label>
+      <input type="text" id="msearch" placeholder="Taper le nom du héros..." oninput="filterHeroes()" autocomplete="off"
+        style="margin-bottom:6px;width:100%;padding:8px 10px;border-radius:6px;border:1px solid rgba(191,127,255,.4);background:var(--bg3);color:var(--text);font-size:13px;outline:none;font-family:inherit">
+      <select id="mh" size="5" style="height:130px;width:100%" onchange="onHeroChosen()"><option value="">— Cherche ci-dessus —</option></select>
+      <div class="hint" id="mhint"></div>
+    </div>
+    <div class="mf"><label>Niveau EX</label>
+      <select id="mex">
+        <option value="-1">Non débloqué</option><option value="0" selected>+0 (débloqué)</option>
+        <option value="1">+1</option><option value="2">+2</option><option value="3">+3</option>
+        <option value="4">+4</option><option value="5">+5</option><option value="6">+6</option>
+        <option value="7">+7</option><option value="8">+8</option><option value="9">+9</option>
+        <option value="10">+10</option><option value="11">+11</option><option value="12">+12</option>
+        <option value="13">+13</option><option value="14">+14</option><option value="15">+15</option>
+      </select>
+    </div>
+    <div class="mf"><label>Parangon</label>
+      <select id="mpn">
+        <option>Elite</option><option>Elite+</option><option>Epic</option><option>Epic+</option>
+        <option>Légendaire</option><option>Légendaire+</option><option>Mythic</option><option>Mythic+</option>
+        <option>Supreme</option><option>Supreme+</option><option>P1</option><option>P2</option><option>P3</option><option>P4</option>
+      </select>
+    </div>
+    <div class="ma">
+      <button class="bc" onclick="closeM()">Annuler</button>
+      <button class="bo" id="mok" onclick="confirmA()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts chargés dans l'ordre -->
+<script src="js/heroes.js"></script>
+<script src="js/synergies.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
