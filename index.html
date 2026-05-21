@@ -43,10 +43,14 @@
         <div class="sav" id="sav">?</div>
         <h2 id="stit">Ma Box</h2>
         <span class="hcount" id="hcnt"></span>
-        <button class="add-btn" onclick="showExPriority()" style="border-color:var(--gold);color:var(--gold)" title="Priorités EX">⭐ EX</button>
         <button class="add-btn" onclick="openM()">+ Ajouter</button>
       </div>
       <div class="sw"><input type="text" id="srch" placeholder="Rechercher..." oninput="renderL()"></div>
+      <div style="padding:6px 14px;border-bottom:1px solid var(--border)">
+        <button onclick="showExPriority()" style="width:100%;padding:7px;border-radius:6px;border:1px solid var(--gold);background:rgba(255,215,0,.08);color:var(--gold);font-size:12px;cursor:pointer;font-family:inherit;font-weight:600;letter-spacing:0.5px">
+          Priorités EX
+        </button>
+      </div>
       <div class="ff" id="ff"></div>
       <div class="hl" id="hl"></div>
     </div>
